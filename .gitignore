@@ -19,3 +19,6 @@ data/raw/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Borradores del reporte (se reescriben a mano; solo se entrega el PDF final)
+reporte/
