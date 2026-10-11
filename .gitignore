@@ -1,0 +1,21 @@
+# Entorno local
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Datos originales del INE (se descargan con scripts/01_descarga.py; la cartografía, del SIGE 8)
+data/raw/
+
+# Credenciales y configuración local: nunca se suben
+.env
+.env.*
+*.pem
+*.key
+*token*
+*secret*
+.config/
+
+# Sistema
+.DS_Store
+Thumbs.db
