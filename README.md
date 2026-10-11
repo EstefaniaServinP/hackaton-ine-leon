@@ -32,6 +32,8 @@ python3 -m venv .venv
 .venv/bin/python scripts/07_escenarios.py    # escenarios sin/con intervención y semáforo
 .venv/bin/python scripts/08_mapa.py          # mapa interactivo
 .venv/bin/python scripts/09_exportar.py      # archivos de entrega
+.venv/bin/python scripts/10_figura_mapa.py   # mapa estático para el reporte
+.venv/bin/python scripts/11_robustez.py      # margen de error, sensibilidad y escenario europeo
 ```
 
 ## Resultados principales
@@ -44,6 +46,8 @@ python3 -m venv .venv
 | `outputs/metricas_modelo.md` | Validación del modelo |
 | `outputs/resumen_escenarios.md` | Semáforo y resultados de la intervención |
 | `outputs/intervencion.md` | Diseño y supuestos de la intervención |
+| `outputs/recomendaciones.md` | Acciones por nivel de riesgo y por distrito |
+| `outputs/robustez.md` | Margen de error, secciones rojas firmes, sensibilidad y escenario con evidencia europea |
 | `outputs/notas_secciones.md`, `outputs/notas_caida.md` | Decisiones metodológicas |
 | `outputs/entrega/` | Base anonimizada y escenarios (CSV y GeoJSON) |
 

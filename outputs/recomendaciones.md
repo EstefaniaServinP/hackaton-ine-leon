@@ -13,7 +13,7 @@ Base: semáforo de riesgo de abstención juvenil 2027, escenario sin intervenci�
 
 ## 🔴 Riesgo alto — intervenir (Brigada CAE–SE Joven)
 
-1. **Volanteo casa por casa de los CAE en las 216 secciones.** Durante sus recorridos para notificar, entregar en todas las viviendas el volante dirigido a jóvenes (dónde votar, por qué importa, invitación a acercarse al CAE y a los simulacros).
+1. **Volanteo casa por casa de los CAE en las 216 secciones.** Durante sus recorridos para notificar, entregar en todas las viviendas el volante que invita a los jóvenes a votar en 2027 (cuándo y dónde votar, por qué su voto cuenta) y, como formas de involucrarse, a acercarse al CAE y a un simulacro. Contenido neutral, sin elementos partidistas.
    Población: 146,828 jóvenes; énfasis en los 73,316 hombres de 18–29, el grupo que menos vota.
 2. **Brigadas de SE en preparatorias y universidades** cercanas: 102 secciones rojas tienen al menos una a ≤ 1 km. Programarlas en los tiempos sin carga operativa del SE.
 3. **Simulacros abiertos a jóvenes** en las secciones rojas (2–3 por CAE), con cupo para quienes se acerquen por el volante o la escuela.

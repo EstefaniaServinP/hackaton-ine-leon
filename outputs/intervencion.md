@@ -11,7 +11,7 @@ Secciones en semáforo **rojo** (HINE-19) y las **50 secciones con mayor caída*
 
 | # | Quién | Qué hace | A quién llega |
 |---|---|---|---|
-| 1 | **CAE** | Mientras recorre su ARE buscando domicilios para notificar, entrega **casa por casa** (no solo a los insaculados) un volante dirigido a jóvenes: dónde votar, por qué importa, y la invitación "si ves a un CAE, acércate a preguntar sin compromiso". | Todas las viviendas de las secciones rojas |
+| 1 | **CAE** | Mientras recorre su ARE buscando domicilios para notificar, entrega **casa por casa** (no solo a los insaculados) un volante cuyo **mensaje principal es invitar a los jóvenes a votar en 2027** (cuándo y dónde votar, y por qué su voto cuenta). Como formas de involucrarse y conocer el proceso, invita además a acercarse al CAE para resolver dudas ("si ves a un CAE, acércate a preguntar sin compromiso") y a asistir a un simulacro. Contenido institucional y neutral: sin colores, frases ni símbolos asociados a partidos o candidaturas. | Todas las viviendas de las secciones rojas |
 | 2 | **SE** (supervisa una ZORE, que agrupa varias ARE) | Brigadas en **preparatorias y universidades** cercanas a las secciones rojas durante los tiempos sin carga operativa. | Estudiantes de 18 a 24 |
 | 3 | **CAE + SE** | **Simulacros abiertos**: los jóvenes interesados (volante, escuela o abordaje en calle) pueden asistir a los simulacros de casilla, que hoy tienen cupo porque no van todos los FMDC. | Jóvenes interesados |
 
@@ -27,8 +27,8 @@ Secciones en semáforo **rojo** (HINE-19) y las **50 secciones con mayor caída*
 
 | Canal | Pesimista | Medio | Optimista | Base |
 |---|---|---|---|---|
-| Conversación cara a cara (25 % de viviendas) | +2.5 pts | +3.0 pts | +4.3 pts | Meta-análisis de experimentos de campo: ~2.5 pts (Green, McGrath y Aronow, 2013) y ~4.3 pts en contactados (Gerber, 51 experimentos) |
-| Solo volante (75 % de viviendas) | 0 | +0.3 pts | +0.5 pts | La evidencia de volantes es débil, cercana a cero; se trata como bono pequeño |
+| Conversación cara a cara (25 % de viviendas) | +2.5 pts | +3.0 pts | +4.3 pts | ~2.5 pts (Green et al., 2013, como se citó en Townsley, 2025) y 4.3 pts en contactados (Gerber y Huber, 2016) |
+| Solo volante (75 % de viviendas) | 0 | +0.3 pts | +0.5 pts | Envío postal no partidista: < 0.5 pts (Gerber y Huber, 2016); volantes partidistas sin efecto significativo (Green et al., 2013, como se citó en Townsley, 2025) |
 | Brigada en escuelas (SE) | +0.5 pts | +1.0 pts | +2.0 pts | Sin evidencia experimental directa en México; supuesto conservador |
 | Simulacro (sobre asistentes) | +5 pts | +10 pts | +15 pts | Supuesto; aplica a pocas personas (10–15 jóvenes por simulacro) |
 
@@ -43,10 +43,10 @@ La literatura indica que el efecto del contacto es mayor en elecciones de **baja
 - Escenario A (sin intervención) vs. B (con intervención) en pesimista / medio / optimista.
 - Votos jóvenes adicionales, secciones que cambian de color y costo marginal (≈ volantes impresos; el personal ya está contratado).
 
-## Fuentes
+## Fuentes (APA 7)
 
-- Gerber, A. "Getting Out the Vote Is Tougher Than You Think", Stanford Social Innovation Review. https://ssir.org/articles/entry/getting_out_the_vote_is_tougher_than_you_think
-- Green, D., McGrath, M. y Aronow, P. (2013). "Field Experiments and the Study of Voter Turnout", Journal of Elections, Public Opinion and Parties; citado en Political Science Research and Methods (2018), https://doi.org/10.1017/psrm.2018.39
+- Gerber, A. y Huber, G. A. (2016, 7 de marzo). Getting out the vote is tougher than you think. *Stanford Social Innovation Review*. https://ssir.org/articles/entry/getting_out_the_vote_is_tougher_than_you_think
+- Townsley, J. (2025). Is it worth door-knocking? Evidence from a United Kingdom-based Get Out The Vote (GOTV) field experiment on the effect of party leaflets and canvass visits on voter turnout. *Political Science Research and Methods, 13*(1), 21–35. https://doi.org/10.1017/psrm.2018.39 (cita a Green, McGrath y Aronow, 2013, y a Bhatti et al., 2016, que estima 0.78 pts en Europa)
 
 ## Nota
 
