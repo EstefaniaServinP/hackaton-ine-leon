@@ -8,13 +8,13 @@ Secciones en entrenamiento: 564 · en prueba: 688.
 | Línea base: igual que la elección anterior | 3.06 |
 | Línea base: igual que la elección del mismo tipo | 4.30 |
 | Línea base: promedio de ambas | 3.21 |
-| Regresión lineal | 2.92 |
-| Random forest | 3.39 |
+| Regresión lineal | 2.86 |
+| Random forest | 3.35 |
 
 **Elegido: Regresión lineal.**
 
 Nivel de León supuesto para 2027 (participación capturada de la intermedia 2021): 45.4 % total, 34.5 % jóvenes 18-29.
 
 Secciones con predicción: 777 · calidad: {'completa': 689, 'parcial': 85, 'sin historial': 3}.
-Participación 2027 predicha — mediana 49.7 %, rango 13.6–78.7 %.
-Jóvenes 2027 predicha — mediana 37.8 %.
+Participación 2027 predicha — mediana 49.2 %, rango 15.9–81.2 %.
+Jóvenes 2027 predicha — mediana 37.2 %.

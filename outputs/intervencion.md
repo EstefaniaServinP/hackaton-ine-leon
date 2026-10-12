@@ -33,7 +33,7 @@ Secciones en semáforo **rojo** (HINE-19) y las **50 secciones con mayor caída*
 | Brigada en escuelas (SE) | +0.5 pts | +1.0 pts | +2.0 pts | Sin evidencia experimental directa en México; supuesto conservador |
 | Simulacro (sobre asistentes) | +5 pts | +10 pts | +15 pts | Supuesto; aplica a pocas personas (10–15 jóvenes por simulacro) |
 
-Efecto combinado calculado (`scripts/07_escenarios.py`), promedio en las 223 secciones intervenidas:
+Efecto combinado calculado (`scripts/07_escenarios.py`), promedio en las 229 secciones intervenidas:
 **+1.4 pts (pesimista), +2.6 pts (medio), +4.4 pts (optimista)** en la participación de jóvenes.
 Simulacros: ~25 asistentes por sección (2 simulacros × 10–15 jóvenes), con tope del 10 % de los jóvenes de la sección.
 
@@ -54,3 +54,14 @@ La literatura indica que el efecto del contacto es mayor en elecciones de **baja
 Invitar jóvenes a simulacros y las brigadas escolares de SE son **propuestas nuevas**: hoy los simulacros son solo para FMDC. Se presentan como recomendación al INE.
 
 La experiencia de campo proviene de una elección **presidencial**; en una intermedia concurrente (2027, con elección local en Guanajuato) la carga operativa y la disponibilidad de tiempos pueden variar.
+
+## Momento del contacto (ajuste)
+
+La primera visita de los CAE ocurre meses antes de la jornada y el efecto de un contacto se desvanece con el tiempo. Por eso el volante lleva un **código QR** para que la persona joven, si quiere, se suscriba a un recordatorio institucional (con su consentimiento), y se agrega un **segundo contacto en las últimas semanas antes de la elección**: recordatorios a quienes se suscribieron y difusión digital focalizada en las zonas de las secciones rojas. No se usan datos de contacto del padrón.
+
+## Piloto con grupo de comparación (`scripts/12_piloto.py`, `outputs/piloto.md`)
+
+Para saber cuánto funciona la brigada, proponemos aplicarla con un grupo de comparación elegido al azar:
+
+- **Por sección:** 108 secciones rojas con brigada y 108 sin ella. Solo distingue efectos de ~2.6 pts o más (escenario medio).
+- **Por persona (recomendado):** dentro de las secciones rojas, el CAE entrega el volante en hogares elegidos al azar y registra la entrega; después, el INE compara de forma interna y anonimizada la participación de jóvenes de hogares con y sin volante usando los registros de marca de voto de los cuadernillos (la misma base de los Conteos Censales). Distingue efectos de ~0.8 pts.

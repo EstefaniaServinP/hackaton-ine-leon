@@ -14,6 +14,8 @@ estructura existente de CAE y SE del INE ("Brigada CAE–SE Joven").
 - **Base Geográfica Digital**, Guanajuato, SIGE 8, INE (corte diciembre 2025):
   https://cartografia.ine.mx/sige8/productosCartograficos/bases
 
+- **Estadísticas Censales a Escalas Geoelectorales 2020**, INEGI: escolaridad, viviendas, internet, PEA y migración por sección.
+
 Solo se usa información agregada por sección, sexo y edad; no hay datos personales.
 
 ## Cómo reproducir
@@ -28,12 +30,16 @@ python3 -m venv .venv
 .venv/bin/python scripts/04_territorial.py   # León vs. Guanajuato, tipo de sección y top 50 de caída
 # Descargar bgd_11_Shapefile.zip del SIGE 8 en data/raw/cartografia/ antes del siguiente paso
 .venv/bin/python scripts/05_cartografia.py   # polígonos de secciones y escuelas
+# Descargar del Mapa Digital de México (INEGI, capa Geoelectorales, Guanajuato, nivel Secciones) los indicadores
+# poblacion, escolaridad, viviendas, internet, pea y migracion como .xlsx en data/raw/censo/
+.venv/bin/python scripts/13_censo.py         # variables del Censo 2020 por sección
 .venv/bin/python scripts/06_modelo.py        # modelo de predicción 2027 y validación
 .venv/bin/python scripts/07_escenarios.py    # escenarios sin/con intervención y semáforo
 .venv/bin/python scripts/08_mapa.py          # mapa interactivo
 .venv/bin/python scripts/09_exportar.py      # archivos de entrega
 .venv/bin/python scripts/10_figura_mapa.py   # mapa estático para el reporte
 .venv/bin/python scripts/11_robustez.py      # margen de error, sensibilidad y escenario europeo
+.venv/bin/python scripts/12_piloto.py        # efecto mínimo detectable del piloto con grupo de comparación
 ```
 
 ## Resultados principales
@@ -47,6 +53,7 @@ python3 -m venv .venv
 | `outputs/resumen_escenarios.md` | Semáforo y resultados de la intervención |
 | `outputs/intervencion.md` | Diseño y supuestos de la intervención |
 | `outputs/recomendaciones.md` | Acciones por nivel de riesgo y por distrito |
+| `outputs/piloto.md` | Diseño del piloto con grupo de comparación |
 | `outputs/robustez.md` | Margen de error, secciones rojas firmes, sensibilidad y escenario con evidencia europea |
 | `outputs/notas_secciones.md`, `outputs/notas_caida.md` | Decisiones metodológicas |
 | `outputs/entrega/` | Base anonimizada y escenarios (CSV y GeoJSON) |

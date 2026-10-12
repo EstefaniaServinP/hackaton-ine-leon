@@ -30,10 +30,12 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 RAIZ = Path(__file__).resolve().parent.parent
 PROC = RAIZ / "data" / "processed"
+CENSO = pd.read_csv(PROC / "censo_secciones.csv").set_index("seccion")
 OUT = RAIZ / "outputs"
 ANIOS = [2009, 2012, 2015, 2018, 2021, 2024]
 MAX_NS = 0.20
-NUM = ["pos_mismo_tipo", "pos_anterior", "brecha_jov_anterior", "pct_jov", "pct_60", "pct_muj", "log_ln", "crec_ln"]
+NUM = ["pos_mismo_tipo", "pos_anterior", "brecha_jov_anterior", "pct_jov", "pct_60", "pct_muj", "log_ln", "crec_ln",
+       "escolaridad"]  # grado promedio de escolaridad, Censo 2020 por sección (scripts/13_censo.py)
 CAT = ["tipo_seccion"]
 
 
@@ -69,6 +71,7 @@ def filas(s, t):
     x["pos_mismo_tipo"] = s.xs(mismo).pos.reindex(x.index)
     x["crec_ln"] = x.LN / s.xs(mismo).LN.reindex(x.index) - 1
     x["log_ln"] = np.log(x.LN)
+    x["escolaridad"] = CENSO.escolaridad.reindex(x.index)  # dato fijo de 2020; secciones posteriores quedan sin dato
     if t in s.index.get_level_values("anio"):
         x["y"] = s.xs(t).pos.reindex(x.index)
     return x
