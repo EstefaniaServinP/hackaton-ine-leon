@@ -21,7 +21,7 @@ Secciones en semáforo **rojo** (HINE-19) y las **50 secciones con mayor caída*
 - En un día recorre **~la mitad de una colonia**.
 - **~1 de cada 4 viviendas abre** la puerta → 25 % de contacto cara a cara; el resto recibe solo el volante.
   Es conservador frente al dato oficial: en la primera etapa de 2024 los CAE notificaron en la propia visita al 37.6 % de la ciudadanía visitada en el país; en Guanajuato no fue posible localizar al 21.6 % (INE, Informe sobre la primera etapa de integración de mesas directivas de casilla 2023-2024, pp. 71–73).
-- Cada CAE realiza 2–3 simulacros en su ARE (Área de Responsabilidad Electoral); asisten pocos FMDC, por lo que hay cupo para jóvenes invitados.
+- Cada CAE realiza 2–3 simulacros en su ARE (Área de Responsabilidad Electoral); asisten pocos FMDC, por lo que hay cupo para jóvenes invitados. Los simulacros ocurren en la segunda etapa de capacitación, más cerca de la jornada (Guía CAE 2023-2024, p. 80).
 - En los simulacros participa el CAE y, si no coincide con otro, el SE.
 
 ## Efectos supuestos (sobre la participación de jóvenes 18–29)
@@ -64,4 +64,9 @@ La primera visita de los CAE ocurre meses antes de la jornada y el efecto de un 
 Para saber cuánto funciona la brigada, proponemos aplicarla con un grupo de comparación elegido al azar:
 
 - **Por sección:** 108 secciones rojas con brigada y 108 sin ella. Solo distingue efectos de ~2.6 pts o más (escenario medio).
-- **Por persona (recomendado):** dentro de las secciones rojas, el CAE entrega el volante en hogares elegidos al azar y registra la entrega; después, el INE compara de forma interna y anonimizada la participación de jóvenes de hogares con y sin volante usando los registros de marca de voto de los cuadernillos (la misma base de los Conteos Censales). Distingue efectos de ~0.8 pts.
+- **Por persona:** dentro de las secciones rojas, el CAE entrega el volante en hogares elegidos al azar y registra la entrega; el INE compara de forma interna y anonimizada la participación de jóvenes de hogares con y sin volante usando los registros de marca de voto de los cuadernillos. Distingue efectos de ~0.8 pts, pero exige registrar cada hogar visitado, algo que hoy no se hace.
+- **Con el talón (recomendado):** el CAE ya registra cada visita a la ciudadanía sorteada en el "Talón acuse de recibo de la carta-notificación" (INE, *Guía para la y el Capacitador-Asistente Electoral 2023-2024*, pp. 107–108). Se agrega una casilla "volante joven entregado" y el volante se entrega a la mitad de las personas sorteadas, elegidas al azar. El INE compara la participación de los jóvenes sorteados de cada grupo con su clave de elector. Con ~9,650 jóvenes por grupo distingue efectos de ~1.7 pts, por debajo de lo que reporta la literatura para personas contactadas (2.5 a 4.3).
+
+## Diferencia con la carta-notificación
+
+La carta-notificación que entregan los CAE ya invita a votar (experiencia propia del equipo), pero solo llega a la ciudadanía sorteada, el 13 % de la lista nominal (Guía CAE 2023-2024, p. 16), y no está dirigida a jóvenes. El volante de la Brigada llega a todas las viviendas de las secciones rojas y habla a los jóvenes.
