@@ -1,5 +1,7 @@
 # Mapa de Alerta de Abstención en León
 
+Autores: **Estefania Portillo Balderas** y **Mauricio Caudillo Puente**.
+
 Proyecto para el Hackathon INE 2026 **"Hackea la participación: Datos que construyen democracia"**,
 **Reto 2: Predicción y escenarios de riesgo de abstención**.
 
@@ -62,3 +64,7 @@ python3 -m venv .venv
 
 Se utilizaron herramientas de asistencia de IA (Claude) para apoyo en programación y redacción;
 el diseño del análisis, la validación de resultados y las recomendaciones son de autoría del equipo.
+
+## Derechos
+
+Todos los derechos reservados; ver [LICENSE](LICENSE). Los derechos patrimoniales se ceden al INE conforme a la carta de cesión del concurso.
