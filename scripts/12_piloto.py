@@ -1,78 +1,60 @@
-"""Diseño del piloto con grupo de comparación: ¿qué efecto se podría detectar?
+"""Piloto con grupo de comparación: la misma intervención, aplicada a la mitad de los hogares al azar.
 
-Uso: python scripts/12_piloto.py   (requiere 02_limpieza.py y 07_escenarios.py)
-Resultado: outputs/piloto.md
+Uso: python scripts/12_piloto.py   (requiere 07_escenarios.py)
+Resultado: outputs/piloto.md y la clave "piloto" en outputs/cifras_clave.json
 
-Tres diseños, con significancia de 5 % (dos colas) y potencia de 80 %:
-  A. Por sección: las secciones rojas se reparten al azar entre brigada y comparación; el resultado es
-     la participación juvenil de cada sección (Conteos Censales). La variación entre secciones se toma
-     del cambio 2015 -> 2021, ajustado por la participación juvenil de 2015.
-  B. Por persona: dentro de las secciones rojas, el volante se entrega en hogares elegidos al azar y el
-     INE compara, con los registros de marca de voto de los cuadernillos (la base de los Conteos
-     Censales), la participación de jóvenes de hogares con y sin volante. Se aplica un efecto de diseño
-     por agrupamiento en hogares.
-  C. Con el talón (recomendado): el CAE ya registra cada visita a la ciudadanía sorteada en el
-     "Talón acuse de recibo de la carta-notificación" (INE, Guía para la y el CAE 2023-2024,
-     pp. 107-108). Se agrega la casilla "volante joven entregado" y el volante se entrega a la mitad de
-     las personas sorteadas, elegidas al azar; se compara la participación de los jóvenes sorteados de
-     cada grupo con su clave de elector. El sorteo selecciona al 13 % de la lista nominal (Guía, p. 16).
+Diseño: en las secciones rojas, el CAE ya visita el hogar de cada persona sorteada y lo registra en el
+"Talón acuse de recibo de la carta-notificación" (INE, Guía CAE 2023-2024, pp. 107-108). Se agrega la
+casilla "volante joven entregado" y el volante se deja solo en la mitad de esos hogares, elegidos al azar
+(por ejemplo, por el último dígito del código de barras del talón). Después, el INE compara de forma
+interna y anonimizada la participación de los jóvenes de 18 a 29 años de los hogares con y sin volante,
+con los registros de marca de voto de los cuadernillos. Supuesto: el INE puede ubicar a los jóvenes de
+cada hogar por el domicilio registrado en el padrón.
+
+Se calcula el efecto mínimo detectable (significancia 5 % a dos colas, potencia 80 %) y cuántos jóvenes
+harían falta para detectar los efectos de los escenarios.
 """
-import importlib.util
+import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-Z = 1.96 + 0.84          # significancia 5 % (dos colas) y potencia 80 %
-EFECTO_DISENO = 1.5      # supuesto: agrupamiento de jóvenes en un mismo hogar
-SORTEO = 0.13            # primera insaculación: 13 % de la lista nominal
-
-
-def cargar(nombre):
-    spec = importlib.util.spec_from_file_location(nombre, RAIZ / "scripts" / f"{nombre}.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+Z = 1.96 + 0.84
+EFECTO_DISENO = 1.5  # supuesto: jóvenes de un mismo hogar se parecen entre sí
 
 
 def main():
-    modelo = cargar("06_modelo")
-    s, _, _ = modelo.tasas(pd.read_csv(RAIZ / "data" / "processed" / "leon_maestra.csv"))
-    x = pd.concat([s.xs(2015).part_jov, s.xs(2021).part_jov], axis=1, keys=["a", "b"]).dropna()
-    pend = np.polyfit(x.a, x.b, 1)
-    sd = float((x.b - np.polyval(pend, x.a)).std())
-
     e = pd.read_csv(RAIZ / "data" / "processed" / "escenarios_2027.csv")
-    rojas = e[e.semaforo_A == "rojo"]
-    n_secc = len(rojas)
-    jov = float(rojas.ln_jov_2024.sum())
-    p = float((rojas.part_jov_2027 * rojas.ln_jov_2024).sum() / jov) / 100
+    rojas = e[e.intervenida]
+    jov = float((rojas.alcance_hogares * rojas.ln_jov_2024).sum())  # jóvenes en hogares de personas sorteadas
+    p = float((rojas.part_jov_2027 * rojas.ln_jov_2024).sum() / rojas.ln_jov_2024.sum()) / 100
+    var = p * (1 - p) * EFECTO_DISENO
+    mde = Z * np.sqrt(var * 4 / jov) * 100  # mitad y mitad
+    necesarios = {ef: int(np.ceil(4 * var * (Z / (ef / 100)) ** 2)) for ef in [0.5, 1.0]}
+    veces_leon = {ef: n / jov for ef, n in necesarios.items()}
 
-    filas = []
-    for n in [50, 100, n_secc // 2]:
-        filas.append({"diseño": f"A. Por sección ({n} vs {n})", "efecto_minimo_pts": round(Z * sd * np.sqrt(2 / n), 2)})
-    for frac in [0.5]:
-        n = jov * frac
-        mde = Z * np.sqrt(p * (1 - p) * EFECTO_DISENO * (1 / n + 1 / (jov - n))) * 100
-        filas.append({"diseño": f"B. Por persona (hogares al azar, {int(n):,} vs {int(jov - n):,} jóvenes)",
-                      "efecto_minimo_pts": round(mde, 2)})
-    n = jov * SORTEO / 2
-    filas.append({"diseño": f"C. Con el talón (sorteados al azar, {int(n):,} vs {int(n):,} jóvenes)",
-                  "efecto_minimo_pts": round(Z * np.sqrt(p * (1 - p) * 2 / n) * 100, 2)})
-    t = pd.DataFrame(filas)
-
-    md = ["# Diseño del piloto con grupo de comparación", "",
-          f"Secciones rojas: {n_secc}; jóvenes en ellas: {int(jov):,}; participación juvenil predicha: {p:.1%}.",
-          f"Variación entre secciones (cambio 2015→2021 ajustado por 2015): {sd:.2f} pts.", "",
-          t.to_markdown(index=False), "",
-          "Significancia 5 % (dos colas), potencia 80 %. Efecto de diseño por hogar en B: "
-          f"{EFECTO_DISENO} (supuesto).", "",
-          "Lectura: medido por sección, el piloto solo distingue efectos de la magnitud del escenario medio "
-          "o mayores. Con el talón (C), sin tareas nuevas para el CAE salvo una casilla, distingue efectos de "
-          "~1.7 puntos entre jóvenes contactados, por debajo de lo que reporta la literatura (2.5 a 4.3)."]
+    md = ["# Piloto con grupo de comparación", "",
+          f"Jóvenes en hogares de personas sorteadas de las {len(rojas)} secciones rojas de León: ~{int(jov):,} "
+          f"(~{int(jov / 2):,} por grupo). Participación juvenil predicha: {p:.1%}.", "",
+          f"**Efecto mínimo detectable en León: {mde:.1f} puntos** (significancia 5 %, potencia 80 %, efecto de "
+          f"diseño por hogar {EFECTO_DISENO}).", "",
+          "| Efecto a detectar | Jóvenes necesarios (ambos grupos) | Equivale a |",
+          "|---|---|---|"]
+    md += [f"| {ef} pts | {n:,} | {veces_leon[ef]:.0f} veces las secciones rojas de León |" for ef, n in necesarios.items()]
+    md += ["", "Lectura: con los efectos esperados (0.2 a 1.0 puntos), León solo no alcanza para medirlos. "
+           "El piloto debe aplicarse en las secciones rojas de varios municipios o de una o más entidades; "
+           "el mismo código genera el semáforo para cualquier municipio."]
     (RAIZ / "outputs" / "piloto.md").write_text("\n".join(md) + "\n")
     print("\n".join(md))
+
+    ruta = RAIZ / "outputs" / "cifras_clave.json"
+    cifras = json.loads(ruta.read_text())
+    cifras["piloto"] = {"jovenes_leon": int(jov), "mde_leon_pts": round(mde, 1),
+                        "jovenes_necesarios": {str(k): v for k, v in necesarios.items()},
+                        "veces_leon": {str(k): round(v) for k, v in veces_leon.items()}}
+    ruta.write_text(json.dumps(cifras, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":

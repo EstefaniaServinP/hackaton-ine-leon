@@ -1,0 +1,75 @@
+{
+ "rojas": 172,
+ "amarillas": 280,
+ "verdes": 325,
+ "jovenes_en_rojas": 131922,
+ "pct_jovenes_en_rojas": 36,
+ "pct_secciones_rojas": 22,
+ "rojas_top50": 27,
+ "rojas_cayendo": 66,
+ "rojas_rurales_mixtas": 43,
+ "volantes": 42200,
+ "jovenes_alcanzados": 36184,
+ "alcance_medio_hogares_pct": 29,
+ "votos": {
+  "pesimista": 72,
+  "medio": 181,
+  "optimista": 361
+ },
+ "salen_de_rojo": {
+  "pesimista": 0,
+  "medio": 3,
+  "optimista": 5
+ },
+ "pesos_por_voto": {
+  "pesimista": 588.0,
+  "medio": 234.0,
+  "optimista": 117.0
+ },
+ "participacion_total": {
+  "A": 46.1,
+  "pesimista": 46.1,
+  "medio": 46.1,
+  "optimista": 46.1
+ },
+ "participacion_jovenes": {
+  "A": 35.1,
+  "pesimista": 35.1,
+  "medio": 35.2,
+  "optimista": 35.2
+ },
+ "robustez": {
+  "mae_modelo": 2.86,
+  "mae_regla": 3.06,
+  "ic_mejora": [
+   0.02,
+   0.37
+  ],
+  "error_real_q80": 8.1,
+  "error_rel_q80": 6.8,
+  "rojas_firmes": 45,
+  "rojas_rango": [
+   102,
+   253
+  ],
+  "sensibilidad": {
+   "Cortes 27.5 % / 37.5 %": 111,
+   "Cortes 30 % / 40 %": 172,
+   "Cortes 32.5 % / 42.5 %": 245,
+   "Nivel de León en 2027 -3 puntos": 253,
+   "Nivel de León en 2027 +3 puntos": 102
+  }
+ },
+ "piloto": {
+  "jovenes_leon": 36183,
+  "mde_leon_pts": 1.5,
+  "jovenes_necesarios": {
+   "0.5": 341278,
+   "1.0": 85320
+  },
+  "veces_leon": {
+   "0.5": 9,
+   "1.0": 2
+  }
+ }
+}

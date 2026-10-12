@@ -53,9 +53,10 @@ python3 -m venv .venv
 | `outputs/fig_tiposec.png` | León vs. resto del estado y por tipo de sección |
 | `outputs/metricas_modelo.md` | Validación del modelo |
 | `outputs/resumen_escenarios.md` | Semáforo y resultados de la intervención |
-| `outputs/intervencion.md` | Diseño y supuestos de la intervención |
+| `outputs/intervencion.md` | Intervención acotada (volante en visitas que el CAE ya hace), supuestos, neutralidad y piloto |
 | `outputs/recomendaciones.md` | Acciones por nivel de riesgo y por distrito |
-| `outputs/piloto.md` | Diseño del piloto con grupo de comparación |
+| `outputs/piloto.md` | Piloto con grupo de comparación: efecto mínimo detectable y escala necesaria |
+| `outputs/cifras_clave.json` | Cifras que deben coincidir en el reporte y la presentación |
 | `outputs/robustez.md` | Margen de error, secciones rojas firmes, sensibilidad y escenario con evidencia europea |
 | `outputs/notas_secciones.md`, `outputs/notas_caida.md` | Decisiones metodológicas |
 | `outputs/entrega/` | Base anonimizada y escenarios (CSV y GeoJSON) |

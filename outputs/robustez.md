@@ -1,21 +1,23 @@
-# Robustez del semáforo y de los escenarios
+# Robustez del semáforo y del modelo
 
-## 1. Error de la predicción juvenil (validación con 2021)
+## 1. Validación con intervalo de confianza (prueba 2021, 688 secciones)
 
-Secciones evaluadas: 688. Sesgo de nivel (toda la ciudad): -3.4 pts. Error absoluto medio: 5.1 pts; quitando el sesgo de nivel: 4.4 pts. El 80 % de las secciones queda a menos de **±6.8 pts**.
+Error del modelo 2.86 pts contra 3.06 de la mejor regla simple: mejora de 0.20 pts (IC 95 % por remuestreo: 0.02 a 0.37).
 
-## 2. Secciones rojas firmes y probables
+## 2. Error de la predicción juvenil (validación con 2021)
 
-De 222 secciones rojas: **45 firmes** (siguen en rojo aun sumando +6.8 pts), 127 probables (cerca del corte) y 50 en rojo por el ajuste de caída.
+Sesgo de nivel de toda la ciudad: -3.4 pts. Error absoluto medio real: 5.1 pts (relativo a la ciudad: 4.4). El 80 % de las secciones queda a menos de ±8.1 pts en términos reales y ±6.8 pts relativo a la ciudad.
 
-## 3. Sensibilidad del semáforo
+## 3. Secciones rojas firmes
 
-| cortes      |   rojas_con_ajuste |   rojas_sin_ajuste |
-|:------------|-------------------:|-------------------:|
-| 27.5 / 37.5 |                171 |                111 |
-| 30 / 40     |                222 |                172 |
-| 32.5 / 42.5 |                276 |                245 |
+De 172 secciones rojas, **45** siguen en rojo aunque su predicción suba 6.8 pts.
 
-## 4. Escenario solo evidencia europea
+## 4. Sensibilidad del semáforo
 
-Conversación +0.78 pts y cero en lo demás: **291 votos jóvenes adicionales** y 3 secciones salen del riesgo alto (219 rojas).
+| prueba                          |   rojas |
+|:--------------------------------|--------:|
+| Cortes 27.5 % / 37.5 %          |     111 |
+| Cortes 30 % / 40 %              |     172 |
+| Cortes 32.5 % / 42.5 %          |     245 |
+| Nivel de León en 2027 -3 puntos |     253 |
+| Nivel de León en 2027 +3 puntos |     102 |

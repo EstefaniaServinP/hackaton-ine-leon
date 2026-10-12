@@ -85,7 +85,7 @@ def leyenda(conteos):
                 padding:12px 14px;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,.25);font:13px/1.4 system-ui,sans-serif">
       <div style="font-weight:700;font-size:14px;margin-bottom:4px">Riesgo de abstención juvenil 2027</div>
       <div style="color:#52514e;margin-bottom:6px">Participación predicha de jóvenes 18-29:
-        alto &lt; 30 %, medio 30–40 %, bajo ≥ 40 % (sube un nivel si la sección viene cayendo).</div>
+        alto &lt; 30 %, medio 30–40 %, bajo ≥ 40 %. Contorno negro: las 50 que más se han quedado atrás (prioridad).</div>
       {filas}
       <div style="display:flex;align-items:center;gap:8px;margin:3px 0">
         <span style="width:14px;height:14px;border:2.5px solid #0b0b0b;border-radius:3px"></span><span>Top 50 de mayor caída</span></div>

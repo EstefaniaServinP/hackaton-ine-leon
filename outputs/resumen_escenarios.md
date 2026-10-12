@@ -1,30 +1,30 @@
-# HINE-18 / HINE-19 — Escenarios 2027 y semáforo de riesgo
+# HINE-18 / HINE-19 — Semáforo 2027 y escenarios
 
-Secciones intervenidas: 229 (rojas en A ∪ top 50 de caída), con 149,704 jóvenes en lista nominal (2024).
+Secciones intervenidas: 172 (todas las rojas). Volantes: 42,200 (uno por hogar de persona sorteada). Jóvenes que viven en hogares alcanzados: ~36,184 (alcance medio 29 % de los hogares de cada sección roja).
 
 ## Semáforo (número de secciones)
 
 |          |   A (sin intervención) |   B pesimista |   B medio |   B optimista |
 |:---------|-----------------------:|--------------:|----------:|--------------:|
-| rojo     |                    222 |           194 |       171 |           143 |
-| amarillo |                    235 |           262 |       284 |           312 |
-| verde    |                    320 |           321 |       322 |           322 |
+| rojo     |                    172 |           172 |       169 |           167 |
+| amarillo |                    280 |           280 |       283 |           285 |
+| verde    |                    325 |           325 |       325 |           325 |
 
 ## Resultado por escenario
 
-| escenario   |   efecto_jov_medio_pts |   votos_jovenes_extra |   rojas_A |   rojas_B |   salen_de_rojo |
-|:------------|-----------------------:|----------------------:|----------:|----------:|----------------:|
-| pesimista   |                   1.43 |                  1957 |       222 |       194 |              28 |
-| medio       |                   2.58 |                  3503 |       222 |       171 |              51 |
-| optimista   |                   4.36 |                  5985 |       222 |       143 |              79 |
+| escenario   |   efecto_por_joven_alcanzado_pts |   efecto_medio_seccion_pts |   votos_jovenes_extra |   rojas_B |   salen_de_rojo |   pesos_por_voto_por_peso_de_volante |
+|:------------|---------------------------------:|---------------------------:|----------------------:|----------:|----------------:|-------------------------------------:|
+| pesimista   |                              0.2 |                       0.06 |                    72 |       172 |               0 |                                  588 |
+| medio       |                              0.5 |                       0.14 |                   181 |       169 |               3 |                                  234 |
+| optimista   |                              1   |                       0.29 |                   361 |       167 |               5 |                                  117 |
 
 ## Participación de León 2027 (ponderada por lista nominal)
 
-|                      |   Total % |   Jóvenes 18-29 % |
-|:---------------------|----------:|------------------:|
-| A (sin intervención) |     46.09 |             35.11 |
-| B pesimista          |     46.25 |             35.65 |
-| B medio              |     46.37 |             36.07 |
-| B optimista          |     46.56 |             36.75 |
+|           |   Total % |   Jóvenes 18-29 % |
+|:----------|----------:|------------------:|
+| A         |     46.09 |             35.11 |
+| pesimista |     46.1  |             35.13 |
+| medio     |     46.11 |             35.16 |
+| optimista |     46.12 |             35.21 |
 
-Umbrales: rojo < 30 %, amarillo 30–40 %, verde ≥ 40 % de participación juvenil predicha; sube un nivel si la sección cayó ≥ 3 puntos respecto a León entre 2015 y 2021.
+Semáforo: rojo < 30 %, amarillo 30–40 %, verde ≥ 40 % de participación juvenil predicha (sin ajuste por caída). Prioridad dentro del rojo: top 50 de caída, luego las que vienen cayendo, luego el resto.
