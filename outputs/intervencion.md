@@ -20,6 +20,7 @@ Secciones en semáforo **rojo** (HINE-19) y las **50 secciones con mayor caída*
 - Un CAE atiende su ARE, de 1–2 secciones (ej.: un fraccionamiento con su privada + una sección de ~3 calles con casas y edificios), con **hasta ~300 personas por notificar** (cifra aproximada, de memoria).
 - En un día recorre **~la mitad de una colonia**.
 - **~1 de cada 4 viviendas abre** la puerta → 25 % de contacto cara a cara; el resto recibe solo el volante.
+  Es conservador frente al dato oficial: en la primera etapa de 2024 los CAE notificaron en la propia visita al 37.6 % de la ciudadanía visitada en el país; en Guanajuato no fue posible localizar al 21.6 % (INE, Informe sobre la primera etapa de integración de mesas directivas de casilla 2023-2024, pp. 71–73).
 - Cada CAE realiza 2–3 simulacros en su ARE (Área de Responsabilidad Electoral); asisten pocos FMDC, por lo que hay cupo para jóvenes invitados.
 - En los simulacros participa el CAE y, si no coincide con otro, el SE.
 
