@@ -8,11 +8,15 @@ Error del modelo 2.86 pts contra 3.06 de la mejor regla simple: mejora de 0.20 p
 
 Sesgo de nivel de toda la ciudad: -3.4 pts. Error absoluto medio real: 5.1 pts (relativo a la ciudad: 4.4). El 80 % de las secciones queda a menos de ±8.1 pts en términos reales y ±6.8 pts relativo a la ciudad.
 
-## 3. Secciones rojas firmes
+## 3. Tasa de acierto (prueba con 2021)
+
+Si con datos hasta 2018 se marcaba el 22% de secciones de mayor riesgo (138 de 625), el **81%** estuvo de verdad entre las de menor participación juvenil en 2021. Una regla simple (cómo votaron sus jóvenes en 2018) acierta 81%; al azar, 22%. El riesgo es muy persistente.
+
+## 4. Secciones rojas firmes
 
 De 172 secciones rojas, **45** siguen en rojo aunque su predicción suba 6.8 pts.
 
-## 4. Sensibilidad del semáforo
+## 5. Sensibilidad del semáforo
 
 | prueba                          |   rojas |
 |:--------------------------------|--------:|

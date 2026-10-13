@@ -13,6 +13,11 @@
  "volantes": 42200,
  "jovenes_alcanzados": 36184,
  "alcance_medio_hogares_pct": 29,
+ "rojas_escuela_cerca": 70,
+ "primer_voto_leon": 81136,
+ "primer_voto_rojas": 33000,
+ "primer_voto_rojas_escuela_cerca": 9051,
+ "rojas_sin_censo": 19,
  "votos": {
   "pesimista": 72,
   "medio": 181,

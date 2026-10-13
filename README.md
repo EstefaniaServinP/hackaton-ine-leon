@@ -6,8 +6,9 @@ Proyecto para el Hackathon INE 2026 **"Hackea la participación: Datos que const
 **Reto 2: Predicción y escenarios de riesgo de abstención**.
 
 Clasifica el riesgo de abstención juvenil de 2027 (elección intermedia) en cada sección electoral de León, Guanajuato,
-la clasifica en un semáforo de riesgo de abstención juvenil y simula una intervención con la
-estructura existente de CAE y SE del INE ("Brigada CAE–SE Joven").
+con un semáforo, y propone dos acciones con lo que el INE
+ya tiene: un volante en la visita que el CAE ya hace y módulos de credencial cerca de las escuelas, con un
+recordatorio por SMS solo para quien lo acepte.
 
 ## Datos
 
@@ -33,7 +34,7 @@ python3 -m venv .venv
 # Descargar bgd_11_Shapefile.zip del SIGE 8 en data/raw/cartografia/ antes del siguiente paso
 .venv/bin/python scripts/05_cartografia.py   # polígonos de secciones y escuelas
 # Descargar del Mapa Digital de México (INEGI, capa Geoelectorales, Guanajuato, nivel Secciones) los indicadores
-# poblacion, escolaridad, viviendas, internet, pea y migracion como .xlsx en data/raw/censo/
+# poblacion, escolaridad, viviendas, internet, pea, migracion y pob_12a14 (Población de 12 a 14 años) como .xlsx en data/raw/censo/
 .venv/bin/python scripts/13_censo.py         # variables del Censo 2020 por sección
 .venv/bin/python scripts/06_modelo.py        # modelo de predicción 2027 y validación
 .venv/bin/python scripts/07_escenarios.py    # escenarios sin/con intervención y semáforo
@@ -55,7 +56,7 @@ python3 -m venv .venv
 | `outputs/fig_tiposec.png` | León vs. resto del estado y por tipo de sección |
 | `outputs/metricas_modelo.md` | Validación del modelo |
 | `outputs/resumen_escenarios.md` | Semáforo y resultados de la intervención |
-| `outputs/intervencion.md` | Intervención acotada (volante en visitas que el CAE ya hace), supuestos, neutralidad y piloto |
+| `outputs/intervencion.md` | Las dos acciones (volante y credencial con SMS voluntario), supuestos, costos, neutralidad y pilotos |
 | `outputs/recomendaciones.md` | Acciones por nivel de riesgo y por distrito |
 | `outputs/piloto.md` | Piloto con grupo de comparación: efecto mínimo detectable y escala necesaria |
 | `outputs/fichas_prioridad1.pdf` | Ficha de una página por sección de prioridad 1 |

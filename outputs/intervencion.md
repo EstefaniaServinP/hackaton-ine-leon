@@ -1,4 +1,4 @@
-# Intervención: Brigada CAE–SE Joven (versión acotada)
+# Intervención: volante joven y credencial cerca de la escuela
 
 Diseñada para no agregar recorridos al CAE, no recolectar datos personales y poder medirse.
 Cifras generadas por `scripts/07_escenarios.py` y `scripts/12_piloto.py`; ver `outputs/cifras_clave.json`.
@@ -16,7 +16,8 @@ publicarse antes de iniciar. Así se evita que la selección de lugares favorezc
 
 | Componente | Quién | Qué hace | ¿Se cuantifica? |
 |---|---|---|---|
-| **Volante joven** | CAE | En la visita que **ya hace** al hogar de cada persona sorteada (INE, Guía CAE 2023-2024, pp. 107–108), deja un volante neutral que invita a los jóvenes del hogar a votar en 2027 y a conocer el proceso (acercarse al CAE o a un simulacro). Incluye un QR a "Ubica tu casilla" del INE y una segunda línea: **"¿Alguien de esta casa ya vive en otro lugar? Que actualice su credencial en un módulo del INE para votar donde vive"**; **no recolecta datos**. Sin colores, frases ni símbolos asociados a partidos o candidaturas. | Sí |
+| **Volante joven** | CAE | En la visita que **ya hace** al hogar de cada persona sorteada (INE, Guía CAE 2023-2024, pp. 107–108), deja un volante neutral que invita a los jóvenes del hogar a votar en 2027 y a conocer el proceso (acercarse al CAE o a un simulacro). Propone hacer un plan ("¿A qué hora vas a votar y con quién vas?"; Nickerson y Rogers, 2010). Incluye un QR a "Ubica tu casilla" del INE y una línea más: **"Si alguien de tu familia ya se mudó, recuérdale actualizar su credencial para votar donde vive ahora."**; **no recolecta datos**. Sin colores, frases ni símbolos asociados a partidos o candidaturas. | Sí |
+| **Credencial cerca de la escuela + SMS voluntario** | Módulos itinerantes del RFE | Antes del 25 de enero de 2027 (cierre del registro para quienes cumplen 18 antes del 6 de junio; Expansión, 2 sep 2026), módulos en planteles cercanos a secciones rojas. Votarán por primera vez unos 81,100 jóvenes de León (12 a 14 años en el Censo 2020); al menos 33,000 (41 %) viven en secciones rojas y unos 9,050 en las 70 rojas con escuela a 1 km o menos de su centro; las 10 con más concentran casi la mitad. Ahí el joven puede dar su número **con consentimiento propio** para recibir un SMS recordatorio neutral. No usa datos del padrón, que son confidenciales (LGIPE, art. 126). Evidencia: +3.0 pts (Dale y Strauss, 2009) y +4.6 pts en jóvenes de Noruega (Bergh et al., 2021). | No (no sabemos cuántos aceptarían); piloto propio |
 | Brigadas escolares | SE | Pláticas en preparatorias y universidades cercanas, **si los planteles lo autorizan y la carga operativa de 2027 lo permite**. 70 secciones rojas tienen una a 1 km o menos. | No (sin evidencia) |
 | Simulacros abiertos | CAE y SE | Invitar a jóvenes interesados a los simulacros, que ocurren en la segunda etapa de capacitación, más cerca de la jornada (Guía CAE, p. 80), **sin afectar su propósito de capacitar a los FMDC**. | No (sin evidencia) |
 | Recordatorio final | INE | Difusión institucional en las últimas semanas, general y sin datos personales. | No |
@@ -86,7 +87,14 @@ cambio de domicilio (45.6 %) y la segunda, residir en el extranjero (12.2 %) (IN
 | Impresión | 42,200 volantes a $1–2 | $42,200 a $84,400 |
 | Tiempo de CAE | 1 minuto extra por visita | ~700 horas en total, dentro de visitas existentes |
 | Capacitación | Un tema breve en la capacitación de CAE ya programada | Sin costo adicional estimado |
+| Módulos cerca de escuelas | Ya operan en la campaña de credencialización; cambia dónde se ubican | Sin costo adicional estimado |
+| SMS y consentimiento | Un mensaje por joven que acepte, con aviso de privacidad propio | No estimado |
 | Ajuste de formatos y revisión jurídica | Trabajo de oficinas centrales | No estimado |
+
+## Piloto del recordatorio por SMS
+
+Entre quienes acepten, la mitad al azar recibe el mensaje y la otra no; el INE compara después, de forma interna
+y anónima. Con ~10,000 jóvenes que acepten se detectaría un efecto de 2.7 puntos (5 %, potencia 80 %, p = 0.35).
 
 ## Supuestos y límites operativos
 

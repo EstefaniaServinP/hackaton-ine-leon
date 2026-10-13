@@ -57,11 +57,12 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
         ("Votaron en 2024: hombres jóvenes", f"{r.part_jov_hombres_2024:.0f} %"),
         ("Años de escolaridad promedio (2020)", "—" if pd.isna(r.escolaridad) else f"{r.escolaridad:.1f}"),
         ("Viviendas con internet (2020)", "—" if pd.isna(r.pct_internet) else f"{r.pct_internet:.0f} %"),
+        ("Votarán por primera vez en 2027 (aprox.)", "—" if pd.isna(r.primer_voto) else f"{int(r.primer_voto):,}"),
         ("Volantes estimados (hogares visitados)", f"{int(r.volantes):,}"),
         ("Calidad del dato", "Poco confiable: menos de 100 jóvenes" if r.pocos_jovenes else str(r.calidad).capitalize()),
     ]
     for i, (k, v) in enumerate(filas):
-        y = 0.95 - i * 0.12
+        y = 0.95 - i * 0.107
         dato(ax, y, k, v)
         ax.plot([0, 1], [y - 0.035] * 2, color=REJ, linewidth=1, transform=ax.transAxes)
 
@@ -96,7 +97,7 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
     fig.text(0.52, 0.28, "Qué hacer", fontsize=13, fontweight="bold", color=TXT)
     fig.text(0.52, 0.08, "• Volante joven en cada hogar de persona sorteada\n   que el CAE visite (votar y actualizar credencial).\n"
              "• Registrar en el talón si se entregó el volante (piloto).\n"
-             "• Si hay preparatoria o universidad cerca y el plantel\n   lo autoriza: plática de SE.\n"
+             "• Si hay preparatoria o universidad cerca: módulo de\n   credencial con SMS voluntario y plática de SE.\n"
              "• Invitar a jóvenes interesados a un simulacro\n   de la segunda etapa.",
              fontsize=10.5, color=TXT, linespacing=1.6)
     fig.text(0.05, 0.025, FUENTE, fontsize=7.5, color=TXT2)

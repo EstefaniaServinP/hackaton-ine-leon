@@ -24,6 +24,7 @@ Intervención "Brigada CAE-SE Joven", versión acotada a lo que no agrega recorr
 import json
 from pathlib import Path
 
+import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -36,6 +37,17 @@ NIVELES = ["verde", "amarillo", "rojo"]
 SORTEO = 0.13
 LOCALIZABLE = 1 - 0.2157  # en Guanajuato no se localizó al 21.57 % de la ciudadanía visitada (INE, informe 1a etapa 2023-2024, p. 73)
 EFECTO = {"pesimista": 0.2, "medio": 0.5, "optimista": 1.0}  # puntos por joven en hogar alcanzado
+MIN_JOVENES = 100  # con menos jóvenes, el porcentaje varía ±9 pts solo por azar: alerta poco confiable
+CERCA_M = 1000  # escuela "cercana": preparatoria o universidad a 1 km o menos del centro de la sección
+
+
+def distancia_escuela():
+    """Metros del centro de cada sección a la preparatoria o universidad más cercana."""
+    sec = gpd.read_file(PROC / "leon_secciones.geojson").to_crs(6372)  # proyección en metros para México
+    sec["geometry"] = sec.centroid
+    esc = gpd.read_file(PROC / "leon_escuelas.geojson").to_crs(6372)
+    d = gpd.sjoin_nearest(sec[["seccion", "geometry"]], esc[["geometry"]], distance_col="m")
+    return d.groupby("seccion").m.min()
 
 
 def semaforo(part_jov, tend=None):
@@ -50,11 +62,23 @@ def main():
     top50 = set(pd.read_csv(OUT / "top50_caida.csv").seccion)
 
     p["semaforo_A"] = semaforo(p.part_jov_2027)
+    p["pocos_jovenes"] = p.ln_jov_2024 < MIN_JOVENES
+    # Brecha por sexo entre jóvenes en 2024 (participación = SV / LN)
+    m = pd.read_csv(PROC / "leon_maestra.csv")
+    j = m[(m.anio == 2024) & (m.grupo_amplio == "18-29") & m.sexo.isin(["Mujer", "Hombre"])]
+    g = j.groupby(["seccion", "sexo"])[["SV", "LN"]].sum()
+    t = (100 * g.SV / g.LN).unstack()
+    p["part_jov_mujeres_2024"] = t["Mujer"].reindex(p.index).round(1)
+    p["part_jov_hombres_2024"] = t["Hombre"].reindex(p.index).round(1)
     p["viene_cayendo"] = p.tend_intermedia.fillna(0) <= CAIDA
     p["top50"] = p.index.isin(top50)
     p["intervenida"] = p.semaforo_A == "rojo"
     # Prioridad dentro del rojo: 1 = top 50 de caída, 2 = viene cayendo, 3 = resto
     p["prioridad"] = np.where(~p.intervenida, 0, np.where(p.top50, 1, np.where(p.viene_cayendo, 2, 3)))
+    # Acción 2: jóvenes que votarán por primera vez (12 a 14 años en el Censo 2020) y escuela cercana
+    p["primer_voto"] = censo.pob_12a14.reindex(p.index)
+    p["m_escuela"] = distancia_escuela().reindex(p.index).round()
+    p["escuela_cerca"] = p.m_escuela <= CERCA_M
 
     # Alcance: hogares de personas sorteadas / viviendas habitadas (sin censo: mediana de las rojas)
     viv = censo.viviendas.reindex(p.index)
@@ -100,8 +124,13 @@ def main():
         "pct_secciones_rojas": round(100 * len(iv) / len(p)),
         "rojas_top50": int(iv.top50.sum()), "rojas_cayendo": int(iv.viene_cayendo.sum()),
         "rojas_rurales_mixtas": int(iv.tipo_seccion.isin(["R", "M"]).sum()),
+        "secciones_pocos_jovenes": int(p.pocos_jovenes.sum()), "rojas_pocos_jovenes": int(iv.pocos_jovenes.sum()),
         "volantes": int(iv.volantes.sum()), "jovenes_alcanzados": int(round(jov_alcanzados)),
         "alcance_medio_hogares_pct": round(100 * iv.alcance_hogares.mean()),
+        "rojas_escuela_cerca": int(iv.escuela_cerca.sum()),
+        "primer_voto_leon": int(p.primer_voto.sum()), "primer_voto_rojas": int(iv.primer_voto.sum()),
+        "primer_voto_rojas_escuela_cerca": int(iv[iv.escuela_cerca].primer_voto.sum()),
+        "rojas_sin_censo": int(iv.primer_voto.isna().sum()),
         "votos": {f["escenario"]: f["votos_jovenes_extra"] for f in filas},
         "salen_de_rojo": {f["escenario"]: f["salen_de_rojo"] for f in filas},
         "pesos_por_voto": {f["escenario"]: f["pesos_por_voto_por_peso_de_volante"] for f in filas},

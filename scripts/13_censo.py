@@ -2,7 +2,7 @@
 Escalas Geoelectorales 2020), descargadas del Mapa Digital de México para Guanajuato, una por archivo.
 
 Uso: python scripts/13_censo.py
-Entrada: data/raw/censo/{poblacion,escolaridad,viviendas,internet,pea,migracion}.xlsx
+Entrada: data/raw/censo/{poblacion,escolaridad,viviendas,internet,pea,migracion,pob_12a14}.xlsx
 Resultado: data/processed/censo_secciones.csv
 """
 import warnings
@@ -19,6 +19,7 @@ INDICADORES = {
     "internet": "Viviendas particulares habitadas que disponen de internet",
     "pea": "Población de 12 años y más económicamente activa",
     "migracion": "Población nacida en otra entidad",
+    "pob_12a14": "Población de 12 a 14 años",  # en junio de 2027 tendrán unos 18 a 21: votan por primera vez
 }
 
 
