@@ -8,6 +8,8 @@
  "rojas_top50": 27,
  "rojas_cayendo": 66,
  "rojas_rurales_mixtas": 43,
+ "secciones_pocos_jovenes": 43,
+ "rojas_pocos_jovenes": 1,
  "volantes": 42200,
  "jovenes_alcanzados": 36184,
  "alcance_medio_hogares_pct": 29,
@@ -48,6 +50,11 @@
   "error_real_q80": 8.1,
   "error_rel_q80": 6.8,
   "rojas_firmes": 45,
+  "acierto": {
+   "modelo": 81,
+   "regla": 81,
+   "azar": 22
+  },
   "rojas_rango": [
    102,
    253
@@ -71,5 +78,81 @@
    "0.5": 9,
    "1.0": 2
   }
+ },
+ "anexo": {
+  "coeficientes": {
+   "Posición en la elección anterior": 4.73,
+   "Años de escolaridad (Censo 2020)": 2.1,
+   "Posición en la intermedia anterior": 2.03,
+   "% de 60 y más en la lista": 1.33,
+   "Crecimiento de la lista en 6 años": -0.4,
+   "Tamaño de la lista (logaritmo)": -0.32,
+   "% de jóvenes en la lista": 0.12,
+   "Brecha de jóvenes en la elección anterior": 0.06,
+   "% de mujeres en la lista": -0.02
+  },
+  "umbral_ns": [
+   {
+    "umbral": "10%",
+    "anios_descartados": 230,
+    "error_validacion": 2.95,
+    "rojas": 172,
+    "en_comun": 169
+   },
+   {
+    "umbral": "20%",
+    "anios_descartados": 180,
+    "error_validacion": 2.86,
+    "rojas": 172,
+    "en_comun": 172
+   },
+   {
+    "umbral": "30%",
+    "anios_descartados": 158,
+    "error_validacion": 2.79,
+    "rojas": 173,
+    "en_comun": 169
+   },
+   {
+    "umbral": "Sin descartar",
+    "anios_descartados": 0,
+    "error_validacion": 2.35,
+    "rojas": 178,
+    "en_comun": 161
+   }
+  ],
+  "padron": {
+   "razon_leon": 0.7,
+   "mediana_por_color": {
+    "amarillo": 0.85,
+    "rojo": 0.66,
+    "verde": 0.88
+   },
+   "mas_inscritos_que_habitantes": 93,
+   "de_esas_rojas": 2,
+   "corr_part_jov": 0.33,
+   "ausentes": [
+    {
+     "ausentes": "5%",
+     "rojas": 139
+    },
+    {
+     "ausentes": "10%",
+     "rojas": 102
+    },
+    {
+     "ausentes": "20%",
+     "rojas": 56
+    }
+   ]
+  },
+  "costo": {
+   "impresion": [
+    42200,
+    84400
+   ],
+   "horas_cae": 703
+  },
+  "n_entrenamiento": 1252
  }
 }

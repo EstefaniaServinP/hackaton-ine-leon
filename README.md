@@ -5,7 +5,7 @@ Autores: **Estefania Portillo Balderas** y **Mauricio Caudillo Puente**.
 Proyecto para el Hackathon INE 2026 **"Hackea la participación: Datos que construyen democracia"**,
 **Reto 2: Predicción y escenarios de riesgo de abstención**.
 
-Estima la participación de 2027 (elección intermedia) en cada sección electoral de León, Guanajuato,
+Clasifica el riesgo de abstención juvenil de 2027 (elección intermedia) en cada sección electoral de León, Guanajuato,
 la clasifica en un semáforo de riesgo de abstención juvenil y simula una intervención con la
 estructura existente de CAE y SE del INE ("Brigada CAE–SE Joven").
 
@@ -40,8 +40,10 @@ python3 -m venv .venv
 .venv/bin/python scripts/08_mapa.py          # mapa interactivo
 .venv/bin/python scripts/09_exportar.py      # archivos de entrega
 .venv/bin/python scripts/10_figura_mapa.py   # mapa estático para el reporte
-.venv/bin/python scripts/11_robustez.py      # margen de error, sensibilidad y escenario europeo
+.venv/bin/python scripts/11_robustez.py      # margen de error, tasa de acierto y sensibilidad
 .venv/bin/python scripts/12_piloto.py        # efecto mínimo detectable del piloto con grupo de comparación
+.venv/bin/python scripts/14_fichas.py        # una ficha por sección de prioridad 1 (anexo)
+.venv/bin/python scripts/15_anexo.py         # coeficientes, umbral de cuadernillos, padrón desactualizado y costos
 ```
 
 ## Resultados principales
@@ -56,6 +58,8 @@ python3 -m venv .venv
 | `outputs/intervencion.md` | Intervención acotada (volante en visitas que el CAE ya hace), supuestos, neutralidad y piloto |
 | `outputs/recomendaciones.md` | Acciones por nivel de riesgo y por distrito |
 | `outputs/piloto.md` | Piloto con grupo de comparación: efecto mínimo detectable y escala necesaria |
+| `outputs/fichas_prioridad1.pdf` | Ficha de una página por sección de prioridad 1 |
+| `outputs/anexo.md` | Coeficientes del modelo, prueba del umbral de cuadernillos, abstención aparente por padrón desactualizado y costos |
 | `outputs/cifras_clave.json` | Cifras que deben coincidir en el reporte y la presentación |
 | `outputs/robustez.md` | Margen de error, secciones rojas firmes, sensibilidad y escenario con evidencia europea |
 | `outputs/notas_secciones.md`, `outputs/notas_caida.md` | Decisiones metodológicas |

@@ -39,7 +39,7 @@ NUM = ["pos_mismo_tipo", "pos_anterior", "brecha_jov_anterior", "pct_jov", "pct_
 CAT = ["tipo_seccion"]
 
 
-def tasas(m):
+def tasas(m, max_ns=MAX_NS):
     """Participación capturada por sección y año, total y de jóvenes, y su posición respecto a León."""
     m = m[m.anio.isin(ANIOS)]
     g = m.groupby(["anio", "seccion"])
@@ -47,7 +47,7 @@ def tasas(m):
     j = m[m.grupo_amplio == "18-29"].groupby(["anio", "seccion"])[["LN", "SV", "NV"]].sum()
     s["part"] = 100 * s.SV / (s.SV + s.NV)
     s["part_jov"] = 100 * j.SV / (j.SV + j.NV)
-    s.loc[s.NS / s.LN > MAX_NS, ["part", "part_jov"]] = np.nan
+    s.loc[s.NS / s.LN > max_ns, ["part", "part_jov"]] = np.nan
     s["pct_jov"] = 100 * j.LN / s.LN
     s["pct_60"] = 100 * m[m.grupo_amplio == "60+"].groupby(["anio", "seccion"]).LN.sum() / s.LN
     s["pct_muj"] = 100 * m[m.sexo == "Mujer"].groupby(["anio", "seccion"]).LN.sum() / s.LN
@@ -89,10 +89,8 @@ def modelos():
     }
 
 
-def main():
-    m = pd.read_csv(PROC / "leon_maestra.csv")
-    s, ciudad, ciudad_jov = tasas(m)
-
+def predecir(s, ciudad, ciudad_jov):
+    """Valida, elige el modelo, lo reentrena y predice 2027. Devuelve (predicción, validación, modelo final)."""
     # --- Validación temporal: entrenar con la intermedia 2015, probar con la intermedia 2021 ---
     tr, te = filas(s, 2015).dropna(subset=["y"]), filas(s, 2021).dropna(subset=["y"])
     mismo = te.pos_mismo_tipo.fillna(te.pos_anterior).fillna(0)
@@ -106,10 +104,6 @@ def main():
         ajustados[nombre] = mod
     candidatos = {k: v for k, v in res.items() if k in ajustados}
     mejor = min(candidatos, key=candidatos.get)
-    print("MAE validación (puntos de posición, prueba 2021):")
-    for k, v in res.items():
-        print(f"  {k}: {v:.2f}")
-    print(f"Elegido: {mejor}")
 
     # --- Modelo final: entrenar con las intermedias 2015 y 2021, predecir 2027 ---
     todo = pd.concat([tr, te])
@@ -138,6 +132,19 @@ def main():
     # Tendencia entre intermedias (para el semáforo): cambio de posición 2015 -> 2021
     p["tend_intermedia"] = (s.xs(2021).pos.reindex(p.index) - s.xs(2015).pos.reindex(p.index))
     p = p.round(2).reset_index()
+    return p, {"res": res, "mejor": mejor, "tr": tr, "te": te}, final
+
+
+def main():
+    m = pd.read_csv(PROC / "leon_maestra.csv")
+    s, ciudad, ciudad_jov = tasas(m)
+    p, val, final = predecir(s, ciudad, ciudad_jov)
+    res, mejor, tr, te = val["res"], val["mejor"], val["tr"], val["te"]
+    nivel_2027, nivel_jov_2027 = ciudad[2021], ciudad_jov[2021]
+    print("MAE validación (puntos de posición, prueba 2021):")
+    for k, v in res.items():
+        print(f"  {k}: {v:.2f}")
+    print(f"Elegido: {mejor}")
     p.to_csv(PROC / "prediccion_2027.csv", index=False)
 
     imp = None

@@ -16,7 +16,7 @@ publicarse antes de iniciar. Así se evita que la selección de lugares favorezc
 
 | Componente | Quién | Qué hace | ¿Se cuantifica? |
 |---|---|---|---|
-| **Volante joven** | CAE | En la visita que **ya hace** al hogar de cada persona sorteada (INE, Guía CAE 2023-2024, pp. 107–108), deja un volante neutral que invita a los jóvenes del hogar a votar en 2027 y a conocer el proceso (acercarse al CAE o a un simulacro). Incluye un QR a "Ubica tu casilla" del INE; **no recolecta datos**. Sin colores, frases ni símbolos asociados a partidos o candidaturas. | Sí |
+| **Volante joven** | CAE | En la visita que **ya hace** al hogar de cada persona sorteada (INE, Guía CAE 2023-2024, pp. 107–108), deja un volante neutral que invita a los jóvenes del hogar a votar en 2027 y a conocer el proceso (acercarse al CAE o a un simulacro). Incluye un QR a "Ubica tu casilla" del INE y una segunda línea: **"¿Alguien de esta casa ya vive en otro lugar? Que actualice su credencial en un módulo del INE para votar donde vive"**; **no recolecta datos**. Sin colores, frases ni símbolos asociados a partidos o candidaturas. | Sí |
 | Brigadas escolares | SE | Pláticas en preparatorias y universidades cercanas, **si los planteles lo autorizan y la carga operativa de 2027 lo permite**. 70 secciones rojas tienen una a 1 km o menos. | No (sin evidencia) |
 | Simulacros abiertos | CAE y SE | Invitar a jóvenes interesados a los simulacros, que ocurren en la segunda etapa de capacitación, más cerca de la jornada (Guía CAE, p. 80), **sin afectar su propósito de capacitar a los FMDC**. | No (sin evidencia) |
 | Recordatorio final | INE | Difusión institucional en las últimas semanas, general y sin datos personales. | No |
@@ -51,7 +51,7 @@ está dirigida a la persona sorteada, no a los jóvenes del hogar.
 | Optimista | ~360 | 5 | ~120 |
 
 **Lectura honesta:** el efecto directo es pequeño. El valor de la propuesta es (1) el semáforo para priorizar,
-(2) una acción de costo casi nulo que no agrega recorridos y (3) un piloto que mide si funciona.
+(2) una acción de costo bajo que no agrega recorridos y (3) un piloto que mide si funciona.
 
 ## Piloto: la misma intervención, a la mitad de los hogares
 
@@ -64,6 +64,29 @@ el domicilio del padrón.
 - En León detectaría efectos de **1.5 puntos** o más; los esperados son de 0.2 a 1.0.
 - Para detectar 0.5 puntos hacen falta ~341 mil jóvenes, **unas 9 veces las secciones rojas de León**: el piloto
   debe hacerse en varios municipios o a nivel estatal. El código genera el semáforo para cualquier municipio.
+
+## Abstención aparente: jóvenes que ya no viven ahí
+
+En Guanajuato el INE no localizó al 21.6 % de la ciudadanía sorteada; en el país, la razón principal fue el
+cambio de domicilio (45.6 %) y la segunda, residir en el extranjero (12.2 %) (INE, informe de la primera etapa
+2023-2024, pp. 73–74). Esas personas siguen en la lista nominal y cuentan como "no votó". Por eso:
+
+- Parte del rojo puede ser **padrón desactualizado**, no desinterés: si 1 de cada 10 jóvenes inscritos ya no
+  vive en su sección, quedarían 102 secciones rojas en lugar de 172 (el orden de prioridad no cambia).
+  Ver `outputs/anexo.md`.
+- Las secciones rojas **no** tienen más inscritos por habitante que las verdes (mediana 0.66 contra 0.88), así
+  que el padrón inflado no explica por sí solo el semáforo.
+- El volante atiende ambas causas: invita a votar a quien vive ahí y pide a la familia avisar a quien se mudó
+  que actualice su credencial. Eso además ayuda al INE a mantener la lista nominal al día.
+
+## Costos (supuestos explícitos)
+
+| Rubro | Supuesto | Estimación |
+|---|---|---|
+| Impresión | 42,200 volantes a $1–2 | $42,200 a $84,400 |
+| Tiempo de CAE | 1 minuto extra por visita | ~700 horas en total, dentro de visitas existentes |
+| Capacitación | Un tema breve en la capacitación de CAE ya programada | Sin costo adicional estimado |
+| Ajuste de formatos y revisión jurídica | Trabajo de oficinas centrales | No estimado |
 
 ## Supuestos y límites operativos
 
