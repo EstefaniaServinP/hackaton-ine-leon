@@ -6,6 +6,7 @@ Resultado: outputs/fichas_prioridad1.pdf
 """
 from pathlib import Path
 
+import config
 import geopandas as gpd
 import matplotlib
 
@@ -15,8 +16,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROC = RAIZ / "data" / "processed"
-SALIDA = RAIZ / "outputs" / "fichas_prioridad1.pdf"
+PROC = config.PROC
+SALIDA = config.OUT / "fichas_prioridad1.pdf"
 ANIOS = [2015, 2018, 2021, 2024]
 TIPO = {"U": "Urbana", "M": "Mixta", "R": "Rural"}
 SUP, TXT, TXT2, REJ = "#fcfcfb", "#0b0b0b", "#52514e", "#e6e5e0"
@@ -69,7 +70,7 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
     # Historial frente a León
     ax2 = fig.add_axes([0.52, 0.42, 0.43, 0.40], facecolor=SUP)
     for serie, color, nombre, ancho in [(h_jov.loc[r.seccion], AZUL, "Jóvenes de la sección", 2.5),
-                                        (c_jov, GRIS, "Jóvenes de León", 2), (h_tot.loc[r.seccion], NARANJA, "Total de la sección", 2)]:
+                                        (c_jov, GRIS, f"Jóvenes de {config.NOMBRE}", 2), (h_tot.loc[r.seccion], NARANJA, "Total de la sección", 2)]:
         s = serie.reindex(ANIOS)
         ax2.plot(ANIOS, s.values, color=color, linewidth=ancho, marker="o", markersize=6, markeredgecolor=SUP,
                  markeredgewidth=1.5, label=nombre)
@@ -92,7 +93,7 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
         ax3.text(0.5, 0.5, "La sección no aparece en la cartografía\nde 2025: se dividió o cambió de límites.",
                  ha="center", va="center", fontsize=10, color=TXT, transform=ax3.transAxes,
                  bbox={"facecolor": SUP, "edgecolor": REJ})
-    ax3.set_title("Ubicación en León", loc="left", fontsize=11, color=TXT)
+    ax3.set_title(f"Ubicación en {config.NOMBRE}", loc="left", fontsize=11, color=TXT)
 
     fig.text(0.52, 0.28, "Qué hacer", fontsize=13, fontweight="bold", color=TXT)
     fig.text(0.52, 0.08, "• Volante joven en cada hogar de persona sorteada\n   que el CAE visite (votar y actualizar credencial).\n"
@@ -109,20 +110,20 @@ def main():
     e = pd.read_csv(PROC / "escenarios_2027.csv")
     censo = pd.read_csv(PROC / "censo_secciones.csv")[["seccion", "escolaridad", "pct_internet"]]
     e = e.merge(censo, on="seccion", how="left")
-    m = pd.read_csv(PROC / "leon_maestra.csv")
+    m = pd.read_csv(config.MAESTRA)
     df = m[m.anio == 2024].groupby("seccion").distrito_federal.first().rename("distrito_federal")
     e = e.merge(df, on="seccion", how="left")
     p1 = e[e.prioridad == 1].sort_values("part_jov_2027")
-    geo = gpd.read_file(PROC / "leon_secciones.geojson")[["seccion", "geometry"]]
+    geo = gpd.read_file(config.SECCIONES)[["seccion", "geometry"]]
     h_tot, h_jov, c_tot, c_jov = historial(m)
 
     with PdfPages(SALIDA) as pdf:
         fig = plt.figure(figsize=(11, 8.5), dpi=150, facecolor=SUP)
         fig.text(0.07, 0.75, "Fichas de secciones de prioridad 1", fontsize=28, fontweight="bold", color=TXT)
-        fig.text(0.07, 0.68, "Mapa de Alerta de Abstención en León · Semáforo 2027", fontsize=15, color=TXT2)
+        fig.text(0.07, 0.68, f"Mapa de Alerta de Abstención en {config.NOMBRE} · Semáforo 2027", fontsize=15, color=TXT2)
         fig.text(0.07, 0.50, f"{len(p1)} secciones en riesgo alto que además están entre las 50 que más se han quedado\n"
-                 "atrás del promedio de León. Ordenadas de menor a mayor participación juvenil esperada.\n\n"
-                 "Cada ficha resume la sección, su historial frente a León y qué hacer en campo.",
+                 f"atrás del promedio de {config.NOMBRE}. Ordenadas de menor a mayor participación juvenil esperada.\n\n"
+                 f"Cada ficha resume la sección, su historial frente a {config.NOMBRE} y qué hacer en campo.",
                  fontsize=12, color=TXT, linespacing=1.6)
         fig.text(0.07, 0.08, FUENTE, fontsize=8, color=TXT2)
         pdf.savefig(fig, facecolor=SUP); plt.close(fig)

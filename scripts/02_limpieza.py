@@ -1,20 +1,21 @@
-"""HINE-9: tabla maestra de León (MPIOCVE = 20), 2009-2024.
+"""HINE-9: tabla maestra del municipio de config.py (por defecto León, MPIOCVE = 20), 2009-2024.
 
 Uso: python scripts/02_limpieza.py   (requiere haber corrido 01_descarga.py)
-Resultado: data/processed/leon_maestra.csv
+Resultado: data/processed/leon_maestra.csv (otro municipio: data/processed/<nombre>/<nombre>_maestra.csv)
   Una fila por año x sección x sexo x grupo quinquenal de edad, con LN, SV, NV, NS.
 """
 from pathlib import Path
 
+import config
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
 RAW = RAIZ / "data" / "raw"
-SALIDA = RAIZ / "data" / "processed" / "leon_maestra.csv"
+SALIDA = config.MAESTRA
 
 ANIOS = [2009, 2012, 2015, 2018, 2021, 2024]
 INTERMEDIAS = {2009, 2015, 2021}
-LEON = 20
+MUNICIPIO = config.MUNICIPIO
 PANEL = [2015, 2018, 2021, 2024]  # periodo para el modelo por sección (ver outputs/notas_secciones.md)
 
 CORTES = [18, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 200]
@@ -26,9 +27,11 @@ CONTEOS = ["LN", "SV", "NV", "NS"]
 
 def cargar():
     cols = ["AELEC", "MPIOCVE", "SECCION", "TIPOSEC", "DEF", "DEL", "SEXO", "EDAD"] + CONTEOS
-    d = pd.concat(pd.read_csv(RAW / f"gto_{a}.csv", encoding="utf-8-sig", usecols=cols,
+    d = pd.concat(pd.read_csv(config.csv_estado(a), encoding="utf-8-sig", usecols=cols,
                               dtype={"DEF": str, "DEL": str}) for a in ANIOS)
-    d = d[d.MPIOCVE == LEON].drop(columns="MPIOCVE")
+    d = d[d.MPIOCVE == MUNICIPIO].drop(columns="MPIOCVE")
+    if d.empty:
+        raise SystemExit(f"No hay datos del municipio {MUNICIPIO} en {config.ESTADO}; revisa la clave con 00_todo.py --listar")
     # En 2009 y 2012 algunas secciones (ya inexistentes en el marco 2023) traen el distrito en blanco
     for c in ["DEF", "DEL"]:
         d[c] = pd.to_numeric(d[c].str.strip(), errors="coerce").astype("Int64")
@@ -59,6 +62,8 @@ def validar(d):
     assert not ((d.LN == 0) & (d.SV > 0)).any(), "hay filas con LN = 0 y votos"
     assert (d.SV + d.NV + d.NS == d.LN).all(), "SV + NV + NS no suma LN"
     assert d.grupo_edad.notna().all(), "hay edades fuera de rango"
+    if not config.ES_BASE:
+        return  # las cifras de abajo son los totales publicados por el INE para León
     d24 = d[d.anio == 2024]
     assert d24.seccion.nunique() == 777, d24.seccion.nunique()
     assert tasa(d24) == 58.0, tasa(d24)

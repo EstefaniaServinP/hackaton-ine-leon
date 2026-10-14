@@ -9,7 +9,7 @@ Resultado:
 Semáforo: solo la participación juvenil predicha para 2027 (rojo < 30 %, amarillo 30-40 %, verde >= 40 %).
 La caída 2015->2021 ya entra al modelo; aquí solo marca prioridad (no cambia el color).
 
-Intervención "Brigada CAE-SE Joven", versión acotada a lo que no agrega recorridos:
+Acción 1, volante joven (versión acotada a lo que no agrega recorridos):
   - Dónde: todas las secciones rojas (criterio público y automático, sin datos partidistas).
   - Qué: durante la visita que el CAE ya hace a cada persona sorteada, deja en ese hogar un volante
     neutral que invita a los jóvenes a votar. El sorteo cubre el 13 % de la lista nominal
@@ -24,18 +24,19 @@ Intervención "Brigada CAE-SE Joven", versión acotada a lo que no agrega recorr
 import json
 from pathlib import Path
 
+import config
 import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROC = RAIZ / "data" / "processed"
-OUT = RAIZ / "outputs"
+PROC = config.PROC
+OUT = config.OUT
 
 CORTE_ROJO, CORTE_VERDE, CAIDA = 30, 40, -3
 NIVELES = ["verde", "amarillo", "rojo"]
 SORTEO = 0.13
-LOCALIZABLE = 1 - 0.2157  # en Guanajuato no se localizó al 21.57 % de la ciudadanía visitada (INE, informe 1a etapa 2023-2024, p. 73)
+LOCALIZABLE = 1 - config.NO_LOCALIZADO_PCT / 100  # Guanajuato: no se localizó al 21.57 % (INE, informe 1a etapa 2023-2024, p. 73)
 EFECTO = {"pesimista": 0.2, "medio": 0.5, "optimista": 1.0}  # puntos por joven en hogar alcanzado
 MIN_JOVENES = 100  # con menos jóvenes, el porcentaje varía ±9 pts solo por azar: alerta poco confiable
 CERCA_M = 1000  # escuela "cercana": preparatoria o universidad a 1 km o menos del centro de la sección
@@ -43,9 +44,9 @@ CERCA_M = 1000  # escuela "cercana": preparatoria o universidad a 1 km o menos d
 
 def distancia_escuela():
     """Metros del centro de cada sección a la preparatoria o universidad más cercana."""
-    sec = gpd.read_file(PROC / "leon_secciones.geojson").to_crs(6372)  # proyección en metros para México
+    sec = gpd.read_file(config.SECCIONES).to_crs(6372)  # proyección en metros para México
     sec["geometry"] = sec.centroid
-    esc = gpd.read_file(PROC / "leon_escuelas.geojson").to_crs(6372)
+    esc = gpd.read_file(config.ESCUELAS).to_crs(6372)
     d = gpd.sjoin_nearest(sec[["seccion", "geometry"]], esc[["geometry"]], distance_col="m")
     return d.groupby("seccion").m.min()
 
@@ -64,7 +65,7 @@ def main():
     p["semaforo_A"] = semaforo(p.part_jov_2027)
     p["pocos_jovenes"] = p.ln_jov_2024 < MIN_JOVENES
     # Brecha por sexo entre jóvenes en 2024 (participación = SV / LN)
-    m = pd.read_csv(PROC / "leon_maestra.csv")
+    m = pd.read_csv(config.MAESTRA)
     j = m[(m.anio == 2024) & (m.grupo_amplio == "18-29") & m.sexo.isin(["Mujer", "Hombre"])]
     g = j.groupby(["seccion", "sexo"])[["SV", "LN"]].sum()
     t = (100 * g.SV / g.LN).unstack()
@@ -145,7 +146,7 @@ def main():
           f"(alcance medio {cifras['alcance_medio_hogares_pct']} % de los hogares de cada sección roja).", "",
           "## Semáforo (número de secciones)", "", conteo.to_markdown(), "",
           "## Resultado por escenario", "", r.to_markdown(index=False), "",
-          "## Participación de León 2027 (ponderada por lista nominal)", "",
+          f"## Participación de {config.NOMBRE} 2027 (ponderada por lista nominal)", "",
           pd.DataFrame({"Total %": total, "Jóvenes 18-29 %": jov}).round(2).to_markdown(), "",
           "Semáforo: rojo < 30 %, amarillo 30–40 %, verde ≥ 40 % de participación juvenil predicha (sin ajuste por caída). "
           "Prioridad dentro del rojo: top 50 de caída, luego las que vienen cayendo, luego el resto."]

@@ -16,6 +16,7 @@ Métrica de caída (ver outputs/notas_caida.md):
 """
 from pathlib import Path
 
+import config
 import matplotlib
 
 matplotlib.use("Agg")
@@ -23,8 +24,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-RAW = RAIZ / "data" / "raw"
-OUT = RAIZ / "outputs"
+RAW = config.RAW
+OUT = config.OUT
 ANIOS = [2009, 2012, 2015, 2018, 2021, 2024]
 INTERMEDIAS = [2009, 2015, 2021]
 PARES = [(2015, 2021), (2018, 2024)]  # mismo tipo de elección
@@ -41,9 +42,9 @@ def pct(sv, ln):
 def comparacion_estatal():
     filas = []
     for a in ANIOS:
-        d = pd.read_csv(RAW / f"gto_{a}.csv", encoding="utf-8-sig", usecols=["MPIOCVE", "LN", "SV"])
-        leon = d[d.MPIOCVE == 20].sum()
-        resto = d[d.MPIOCVE != 20].sum()
+        d = pd.read_csv(config.csv_estado(a), encoding="utf-8-sig", usecols=["MPIOCVE", "LN", "SV"])
+        leon = d[d.MPIOCVE == config.MUNICIPIO].sum()
+        resto = d[d.MPIOCVE != config.MUNICIPIO].sum()
         filas.append({"anio": a, "leon": pct(leon.SV, leon.LN), "resto_gto": pct(resto.SV, resto.LN),
                       "gto_total": pct(d.SV.sum(), d.LN.sum())})
     t = pd.DataFrame(filas)
@@ -83,19 +84,19 @@ def grafica(est, tipo):
         ax.set_xlim(2007.5, 2031)
         ax.set_ylim(0, 75)
         ax.set_yticks(range(0, 71, 20), [f"{v}%" for v in range(0, 71, 20)])
-    linea(axes[0], est.anio, est.leon, "#2a78d6", "León")
+    linea(axes[0], est.anio, est.leon, "#2a78d6", config.NOMBRE)
     linea(axes[0], est.anio, est.resto_gto, "#eb6834", "Resto de Gto.")
-    axes[0].set_title("León vs. resto de Guanajuato", loc="left", fontsize=11, color=TEXTO)
+    axes[0].set_title(f"{config.NOMBRE} vs. resto de {config.ESTADO}", loc="left", fontsize=11, color=TEXTO)
     colores = {"U": ("#2a78d6", "Urbana", 0), "M": ("#eb6834", "Mixta", 7), "R": ("#1baf7a", "Rural", -7)}
     for k, (c, nombre, dy) in colores.items():
         if k in tipo:
             s = tipo[k].dropna()
             linea(axes[1], pd.Series(s.index), s.reset_index(drop=True), c, nombre, dy)
-    axes[1].set_title("León por tipo de sección", loc="left", fontsize=11, color=TEXTO)
+    axes[1].set_title(f"{config.NOMBRE} por tipo de sección", loc="left", fontsize=11, color=TEXTO)
     for ax in axes:
         ax.legend(loc="lower left", frameon=False, fontsize=9, labelcolor=TEXTO, ncol=3)
         ax.text(2015, 73, "Intermedias sombreadas", ha="center", fontsize=8, color=TEXTO_2) if ax is axes[0] else None
-    fig.suptitle("León vota más que el resto del estado (salvo en 2015); lo rural y mixto, menos", x=0.04, ha="left",
+    fig.suptitle("León vota más que el resto del estado (salvo en 2015); lo rural y mixto, menos" if config.ES_BASE else f"{config.NOMBRE} frente al resto de {config.ESTADO} y por tipo de sección", x=0.04, ha="left",
                  fontsize=14, fontweight="bold", color=TEXTO)
     fig.text(0.04, 0.015, FUENTE, fontsize=7.5, color=TEXTO_2)
     fig.subplots_adjust(left=0.05, right=0.97, top=0.84, bottom=0.11, wspace=0.12)
@@ -131,23 +132,23 @@ def caida(m):
 
 
 def main():
-    m = pd.read_csv(RAIZ / "data" / "processed" / "leon_maestra.csv")
+    m = pd.read_csv(config.MAESTRA)
     est = comparacion_estatal()
     tipo = por_tipo_seccion(m)
-    est.to_csv(OUT / "tabla_leon_vs_gto.csv", index=False)
+    est.to_csv(OUT / f"tabla_{config.SLUG}_vs_{config.ABREV}.csv", index=False)
     tipo.to_csv(OUT / "tabla_tiposec.csv")
     grafica(est, tipo)
 
     c = caida(m)
     c.to_csv(OUT / "caida_secciones.csv", index=False)
-    top = c[c.datos_completos].head(50)
-    assert len(top) == 50
+    top = c[c.datos_completos].head(50)  # en municipios chicos pueden ser menos de 50
+    assert len(top) == 50 or not config.ES_BASE
     top.to_csv(OUT / "top50_caida.csv", index=False)
 
     print(est.to_string(index=False), "\n")
     print(tipo.to_string(), "\n")
     print(f"Secciones del panel: {len(c)} | con datos completos: {c.datos_completos.sum()}")
-    print(f"Top 50: caída de {top.caida.min()} a {top.caida.max()} pts vs. León")
+    print(f"Top 50: caída de {top.caida.min()} a {top.caida.max()} pts vs. {config.NOMBRE}")
     print(top.head(10)[["seccion", "tipo_seccion", "part_2015", "part_2021", "part_2018", "part_2024", "caida",
                         "pct_jovenes_ln", "ln_2024"]].to_string(index=False))
     resto = c[c.datos_completos].iloc[50:]

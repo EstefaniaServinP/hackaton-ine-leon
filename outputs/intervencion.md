@@ -64,7 +64,7 @@ el domicilio del padrón.
 
 - En León detectaría efectos de **1.5 puntos** o más; los esperados son de 0.2 a 1.0.
 - Para detectar 0.5 puntos hacen falta ~341 mil jóvenes, **unas 9 veces las secciones rojas de León**: el piloto
-  debe hacerse en varios municipios o a nivel estatal. El código genera el semáforo para cualquier municipio.
+  debe hacerse en varios municipios o a nivel estatal. El código genera el semáforo para cualquier municipio con `scripts/00_todo.py` (probado con Irapuato; ver README).
 
 ## Abstención aparente: jóvenes que ya no viven ahí
 

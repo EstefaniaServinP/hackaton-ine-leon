@@ -18,6 +18,7 @@ Idea (ver notas en outputs/metricas_modelo.md):
 """
 from pathlib import Path
 
+import config
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -29,9 +30,9 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROC = RAIZ / "data" / "processed"
+PROC = config.PROC
 CENSO = pd.read_csv(PROC / "censo_secciones.csv").set_index("seccion")
-OUT = RAIZ / "outputs"
+OUT = config.OUT
 ANIOS = [2009, 2012, 2015, 2018, 2021, 2024]
 MAX_NS = 0.20
 NUM = ["pos_mismo_tipo", "pos_anterior", "brecha_jov_anterior", "pct_jov", "pct_60", "pct_muj", "log_ln", "crec_ln",
@@ -136,7 +137,7 @@ def predecir(s, ciudad, ciudad_jov):
 
 
 def main():
-    m = pd.read_csv(PROC / "leon_maestra.csv")
+    m = pd.read_csv(config.MAESTRA)
     s, ciudad, ciudad_jov = tasas(m)
     p, val, final = predecir(s, ciudad, ciudad_jov)
     res, mejor, tr, te = val["res"], val["mejor"], val["tr"], val["te"]
@@ -159,7 +160,7 @@ def main():
               "| Modelo | MAE (puntos) |", "|---|---|"]
     lineas += [f"| {k} | {v:.2f} |" for k, v in res.items()]
     lineas += ["", f"**Elegido: {mejor}.**", "",
-               f"Nivel de León supuesto para 2027 (participación capturada de la intermedia 2021): {nivel_2027:.1f} % "
+               f"Nivel de {config.NOMBRE} supuesto para 2027 (participación capturada de la intermedia 2021): {nivel_2027:.1f} % "
                f"total, {nivel_jov_2027:.1f} % jóvenes 18-29.", "",
                f"Secciones con predicción: {len(p)} · calidad: {p.calidad.value_counts().to_dict()}.",
                f"Participación 2027 predicha — mediana {p.part_2027.median():.1f} %, rango {p.part_2027.min():.1f}–{p.part_2027.max():.1f} %.",

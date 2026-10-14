@@ -8,10 +8,11 @@ Resultado: data/processed/censo_secciones.csv
 import warnings
 from pathlib import Path
 
+import config
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-CENSO = RAIZ / "data" / "raw" / "censo"
+CENSO = config.CENSO_DIR
 INDICADORES = {
     "poblacion": "Población total",
     "escolaridad": "Grado promedio de escolaridad",
@@ -38,8 +39,8 @@ def main():
     c["pct_internet"] = (100 * c.internet / c.viviendas).clip(upper=100)  # 4 secciones > 100 % por redondeo
     c["pct_pea"] = 100 * c.pea / c.poblacion
     c["pct_migracion"] = 100 * c.migracion / c.poblacion
-    c.round(2).to_csv(RAIZ / "data" / "processed" / "censo_secciones.csv")
-    print(f"{len(c):,} secciones de Guanajuato -> data/processed/censo_secciones.csv")
+    c.round(2).to_csv(config.PROC / "censo_secciones.csv")
+    print(f"{len(c):,} secciones de {config.ESTADO} -> {(config.PROC / 'censo_secciones.csv').relative_to(RAIZ)}")
     print(c[["escolaridad", "pct_internet", "pct_pea", "pct_migracion"]].describe().round(1).to_string())
 
 

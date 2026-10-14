@@ -19,11 +19,12 @@ import importlib.util
 import json
 from pathlib import Path
 
+import config
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROC = RAIZ / "data" / "processed"
-OUT = RAIZ / "outputs"
+PROC = config.PROC
+OUT = config.OUT
 
 
 def cargar(nombre):
@@ -88,7 +89,7 @@ def padron(m, e):
 
 
 def main():
-    m = pd.read_csv(PROC / "leon_maestra.csv")
+    m = pd.read_csv(config.MAESTRA)
     e = pd.read_csv(PROC / "escenarios_2027.csv")
     cifras = json.loads((OUT / "cifras_clave.json").read_text())
 
@@ -109,7 +110,7 @@ def main():
           "Años descartados = sección-año con NS por encima del umbral. El error de validación no es del todo comparable "
           "entre filas porque cambia qué secciones entran a la prueba.", "",
           "## 3. Abstención aparente por padrón desactualizado", "",
-          f"Inscritos por habitante en León (LN 2021 / población 2020): {pad['razon_leon']}. Mediana por color: "
+          f"Inscritos por habitante en {config.NOMBRE} (LN 2021 / población 2020): {pad['razon_leon']}. Mediana por color: "
           f"{pad['mediana_por_color']}. Secciones con más inscritos que habitantes: {pad['mas_inscritos_que_habitantes']} "
           f"(rojas: {pad['de_esas_rojas']}). Correlación con la participación juvenil esperada: {pad['corr_part_jov']}.", "",
           pd.DataFrame(pad["ausentes"]).to_markdown(index=False), "",

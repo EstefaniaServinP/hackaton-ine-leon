@@ -14,12 +14,13 @@ import importlib.util
 import json
 from pathlib import Path
 
+import config
 import numpy as np
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROC = RAIZ / "data" / "processed"
-OUT = RAIZ / "outputs"
+PROC = config.PROC
+OUT = config.OUT
 
 
 def cargar(nombre):
@@ -62,20 +63,38 @@ def error_juvenil(s, ciudad, ciudad_jov):
             "q80_rel": float(rel.abs().quantile(0.8))}
 
 
+def tasa_de_acierto(s, ciudad, ciudad_jov, fraccion):
+    """De las secciones que el método habría marcado como de mayor riesgo para 2021 (con datos hasta 2018),
+    ¿qué parte estuvo de verdad entre las de menor participación juvenil? Se compara con una regla simple
+    (ordenar por cómo votaron sus jóvenes en 2018) y con elegir al azar."""
+    tr = modelo.filas(s, 2015).dropna(subset=["y"])
+    te = modelo.filas(s, 2021)
+    mod = modelo.modelos()["Regresión lineal"].fit(tr[modelo.NUM + modelo.CAT], tr.y)
+    pos = pd.Series(mod.predict(te[modelo.NUM + modelo.CAT]), index=te.index)
+    pred = ciudad[2015] + pos + s.xs(2015).brecha_jov.reindex(te.index).fillna(ciudad_jov[2015] - ciudad[2015])
+    d = pd.DataFrame({"pred": pred, "real": s.xs(2021).part_jov.reindex(te.index),
+                      "regla": s.xs(2018).part_jov.reindex(te.index)}).dropna()
+    k = int(round(fraccion * len(d)))
+    peores = set(d.nsmallest(k, "real").index)
+    return {"k": k, "n": len(d), "modelo": len(set(d.nsmallest(k, "pred").index) & peores) / k,
+            "regla": len(set(d.nsmallest(k, "regla").index) & peores) / k, "azar": fraccion}
+
+
 def main():
-    s, ciudad, ciudad_jov = modelo.tasas(pd.read_csv(PROC / "leon_maestra.csv"))
+    s, ciudad, ciudad_jov = modelo.tasas(pd.read_csv(config.MAESTRA))
     v = validacion_con_intervalo(s)
     ej = error_juvenil(s, ciudad, ciudad_jov)
     e = pd.read_csv(PROC / "escenarios_2027.csv")
     rojas = e[e.semaforo_A == "rojo"]
     firmes = int((rojas.part_jov_2027 + ej["q80_rel"] < escen.CORTE_ROJO).sum())
+    ta = tasa_de_acierto(s, ciudad, ciudad_jov, len(rojas) / len(e))
 
     sens = []
     for rojo, verde in [(27.5, 37.5), (30, 40), (32.5, 42.5)]:
         sens.append({"prueba": f"Cortes {rojo} % / {verde} %",
                      "rojas": int((e.part_jov_2027 < rojo).sum())})
     for delta in [-3, 3]:
-        sens.append({"prueba": f"Nivel de León en 2027 {delta:+d} puntos",
+        sens.append({"prueba": f"Nivel de {config.NOMBRE} en 2027 {delta:+d} puntos",
                      "rojas": int((e.part_jov_2027 + delta < escen.CORTE_ROJO).sum())})
 
     md = ["# Robustez del semáforo y del modelo", "",
@@ -86,9 +105,13 @@ def main():
           f"Sesgo de nivel de toda la ciudad: {ej['sesgo']:+.1f} pts. Error absoluto medio real: {ej['mae_real']:.1f} pts "
           f"(relativo a la ciudad: {ej['mae_rel']:.1f}). El 80 % de las secciones queda a menos de ±{ej['q80_real']:.1f} pts "
           f"en términos reales y ±{ej['q80_rel']:.1f} pts relativo a la ciudad.", "",
-          "## 3. Secciones rojas firmes", "",
+          "## 3. Tasa de acierto (prueba con 2021)", "",
+          f"Si con datos hasta 2018 se marcaba el {ta['azar']:.0%} de secciones de mayor riesgo ({ta['k']} de {ta['n']}), "
+          f"el **{ta['modelo']:.0%}** estuvo de verdad entre las de menor participación juvenil en 2021. Una regla simple "
+          f"(cómo votaron sus jóvenes en 2018) acierta {ta['regla']:.0%}; al azar, {ta['azar']:.0%}. El riesgo es muy persistente.", "",
+          "## 4. Secciones rojas firmes", "",
           f"De {len(rojas)} secciones rojas, **{firmes}** siguen en rojo aunque su predicción suba {ej['q80_rel']:.1f} pts.", "",
-          "## 4. Sensibilidad del semáforo", "", pd.DataFrame(sens).to_markdown(index=False)]
+          "## 5. Sensibilidad del semáforo", "", pd.DataFrame(sens).to_markdown(index=False)]
     (OUT / "robustez.md").write_text("\n".join(md) + "\n")
     print("\n".join(md))
 
@@ -97,7 +120,8 @@ def main():
     cifras["robustez"] = {"mae_modelo": round(v["mae_modelo"], 2), "mae_regla": round(v["mae_regla"], 2),
                           "ic_mejora": [round(v["ic_bajo"], 2), round(v["ic_alto"], 2)],
                           "error_real_q80": round(ej["q80_real"], 1), "error_rel_q80": round(ej["q80_rel"], 1),
-                          "rojas_firmes": firmes, "rojas_rango": [min(x["rojas"] for x in sens), max(x["rojas"] for x in sens)],
+                          "rojas_firmes": firmes,
+                          "acierto": {"modelo": round(100 * ta["modelo"]), "regla": round(100 * ta["regla"]), "azar": round(100 * ta["azar"])}, "rojas_rango": [min(x["rojas"] for x in sens), max(x["rojas"] for x in sens)],
                           "sensibilidad": {x["prueba"]: x["rojas"] for x in sens}}
     ruta.write_text(json.dumps(cifras, ensure_ascii=False, indent=1))
 

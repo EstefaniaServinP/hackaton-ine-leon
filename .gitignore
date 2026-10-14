@@ -22,3 +22,7 @@ Thumbs.db
 
 # Borradores del reporte (se reescriben a mano; solo se entrega el PDF final)
 reporte/
+
+# Otros municipios: se suben sus resultados (outputs/<nombre>/) como prueba de réplica, no sus datos intermedios
+data/processed/*/
+outputs/*/entrega/

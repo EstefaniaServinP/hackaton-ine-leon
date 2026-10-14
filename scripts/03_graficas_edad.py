@@ -9,6 +9,7 @@ Resultado:
 """
 from pathlib import Path
 
+import config
 import matplotlib
 
 matplotlib.use("Agg")
@@ -17,7 +18,7 @@ from matplotlib.colors import LinearSegmentedColormap
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-OUT = RAIZ / "outputs"
+OUT = config.OUT
 
 # Paleta categórica validada (dataviz, modo claro) y tokens de texto/superficie
 SUPERFICIE = "#fcfcfb"
@@ -67,13 +68,13 @@ def grafica_lineas(t):
     ax.set_yticklabels([f"{v}%" for v in range(0, 81, 20)])
     ax.legend(loc="lower left", frameon=False, fontsize=9.5, labelcolor=TEXTO, ncol=3)
     brecha = t.loc["60+", 2024] - t.loc["18-29", 2024]
-    fig.suptitle("En León, los jóvenes votan mucho menos que los mayores", x=0.06, ha="left",
+    fig.suptitle(f"En {config.NOMBRE}, los jóvenes votan mucho menos que los mayores", x=0.06, ha="left",
                  fontsize=15, fontweight="bold", color=TEXTO)
-    ax.set_title(f"Participación por grupo de edad, León, Gto. — brecha de {brecha:.0f} puntos en 2024",
+    ax.set_title(f"Participación por grupo de edad, {config.NOMBRE}, {config.ESTADO} — brecha de {brecha:.0f} puntos en 2024",
                  loc="left", fontsize=10.5, color=TEXTO_2, pad=12)
     fig.text(0.06, 0.015, FUENTE, fontsize=8, color=TEXTO_2)
     fig.subplots_adjust(left=0.06, right=0.97, top=0.85, bottom=0.11)
-    fig.savefig(OUT / "fig_edad_leon.png", facecolor=SUPERFICIE)
+    fig.savefig(OUT / f"fig_edad_{config.SLUG}.png", facecolor=SUPERFICIE)
     plt.close(fig)
 
 
@@ -100,9 +101,9 @@ def grafica_calor(q):
     cb.outline.set_visible(False)
     cb.ax.tick_params(colors=TEXTO_2, labelsize=8.5, length=0)
     cb.set_label("Participación (%)", color=TEXTO_2)
-    fig.suptitle("Votan menos los de 20 a 34 años; más, los de 60 a 74", x=0.04, ha="left",
+    fig.suptitle("Votan menos los de 20 a 34 años; más, los de 60 a 74" if config.ES_BASE else "Participación por edad quinquenal", x=0.04, ha="left",
                  fontsize=14, fontweight="bold", color=TEXTO)
-    ax.set_title("Participación (%) por grupo de edad quinquenal, León, Gto.", loc="left",
+    ax.set_title(f"Participación (%) por grupo de edad quinquenal, {config.NOMBRE}, {config.ESTADO}", loc="left",
                  fontsize=10, color=TEXTO_2, pad=10)
     fig.text(0.04, 0.012, FUENTE, fontsize=7, color=TEXTO_2)
     fig.subplots_adjust(left=0.1, right=0.95, top=0.88, bottom=0.1)
@@ -111,7 +112,7 @@ def grafica_calor(q):
 
 
 def main():
-    d = pd.read_csv(RAIZ / "data" / "processed" / "leon_maestra.csv")
+    d = pd.read_csv(config.MAESTRA)
     t = tasa(d, ["grupo_amplio", "anio"]).unstack()
     q = tasa(d, ["grupo_edad", "anio"]).unstack()
 
@@ -127,7 +128,7 @@ def main():
     brechas.to_csv(OUT / "tabla_brechas.csv", index=False)
     q.to_csv(OUT / "tabla_quinquenal.csv")
 
-    assert t.loc["18-29", 2024] == 47.9 and t.loc["60+", 2024] == 73.0
+    assert not config.ES_BASE or (t.loc["18-29", 2024] == 47.9 and t.loc["60+", 2024] == 73.0)  # cifras de León
     grafica_lineas(t)
     grafica_calor(q)
     print(brechas.to_string(index=False))

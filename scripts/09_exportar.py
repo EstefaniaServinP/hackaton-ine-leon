@@ -8,23 +8,24 @@ Resultado (outputs/entrega/):
 """
 from pathlib import Path
 
+import config
 import geopandas as gpd
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROC = RAIZ / "data" / "processed"
-ENTREGA = RAIZ / "outputs" / "entrega"
+PROC = config.PROC
+ENTREGA = config.OUT / "entrega"
 
 
 def main():
     ENTREGA.mkdir(parents=True, exist_ok=True)
-    base = pd.read_csv(PROC / "leon_maestra.csv")
+    base = pd.read_csv(config.MAESTRA)
     assert {"anio", "seccion", "sexo", "grupo_edad"} <= set(base.columns) and "edad" not in base.columns
     base.to_csv(ENTREGA / "base_anonimizada.csv", index=False)
 
     esc = pd.read_csv(PROC / "escenarios_2027.csv")
     esc.to_csv(ENTREGA / "escenarios_2027.csv", index=False)
-    geo = gpd.read_file(PROC / "leon_secciones.geojson")[["seccion", "geometry"]]
+    geo = gpd.read_file(config.SECCIONES)[["seccion", "geometry"]]
     g = geo.merge(esc, on="seccion", how="inner")
     assert {"semaforo_A", "semaforo_B_medio", "part_jov_2027", "part_jov_B_medio"} <= set(g.columns)
     g.to_file(ENTREGA / "escenarios_2027.geojson", driver="GeoJSON")

@@ -23,6 +23,8 @@ Solo se usa información agregada por sección, sexo y edad; no hay datos person
 
 ## Cómo reproducir
 
+Después de instalar (las dos primeras líneas), todo se corre con `.venv/bin/python scripts/00_todo.py`. Paso por paso:
+
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
@@ -46,6 +48,37 @@ python3 -m venv .venv
 .venv/bin/python scripts/14_fichas.py        # una ficha por sección de prioridad 1 (anexo)
 .venv/bin/python scripts/15_anexo.py         # coeficientes, umbral de cuadernillos, padrón desactualizado y costos
 ```
+
+## Usarlo en otro municipio
+
+El análisis no está amarrado a León. Todo se configura en [scripts/config.py](scripts/config.py) y se corre con un solo comando:
+
+```bash
+# 1. Ver las claves de los municipios del estado (Guanajuato = 11)
+.venv/bin/python scripts/00_todo.py --entidad 11 --listar
+
+# 2. Correr todo para ese municipio
+.venv/bin/python scripts/00_todo.py --entidad 11 --municipio 17 --nombre Irapuato
+```
+
+Los resultados quedan en `outputs/<nombre>/` (semáforo, mapa, fichas, piloto, robustez) y no tocan los de León.
+
+**Prueba con Irapuato** (mismo estado, sin descargar nada más): ver [outputs/irapuato/](outputs/irapuato/).
+109 de 262 secciones en riesgo alto, con el 60 % de los jóvenes; tasa de acierto de 82 % (al azar, 42 %).
+Ahí el modelo empata con la regla simple (error de 3.66 contra 3.61 puntos): el orden del semáforo se sostiene,
+pero la ventaja del modelo que vimos en León no se repite en todos lados.
+
+**Para un municipio de otro estado** hay que descargar a mano dos cosas antes de correrlo:
+
+| Qué | Dónde se descarga | Dónde se guarda |
+|---|---|---|
+| Base Geográfica Digital del estado | SIGE 8 del INE: https://cartografia.ine.mx/sige8/productosCartograficos/bases | `data/raw/cartografia/bgd_<clave>_Shapefile.zip` |
+| 7 indicadores del Censo 2020 por sección | Mapa Digital de México, capa Geoelectorales, nivel Secciones | `data/raw/censo/<clave>/` con los mismos nombres que en `data/raw/censo/` |
+
+Los Conteos Censales de todos los estados los descarga solo `01_descarga.py`. El porcentaje de ciudadanía que no se
+pudo localizar (para estimar los volantes) se toma automáticamente del informe del INE para cada estado.
+Los cortes del semáforo (30 % y 40 %) son los mismos en todos lados: un municipio donde los jóvenes votan menos,
+como Irapuato, tendrá más secciones en rojo.
 
 ## Resultados principales
 

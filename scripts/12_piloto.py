@@ -17,6 +17,7 @@ harían falta para detectar los efectos de los escenarios.
 import json
 from pathlib import Path
 
+import config
 import numpy as np
 import pandas as pd
 
@@ -26,7 +27,7 @@ EFECTO_DISENO = 1.5  # supuesto: jóvenes de un mismo hogar se parecen entre sí
 
 
 def main():
-    e = pd.read_csv(RAIZ / "data" / "processed" / "escenarios_2027.csv")
+    e = pd.read_csv(config.PROC / "escenarios_2027.csv")
     rojas = e[e.intervenida]
     jov = float((rojas.alcance_hogares * rojas.ln_jov_2024).sum())  # jóvenes en hogares de personas sorteadas
     p = float((rojas.part_jov_2027 * rojas.ln_jov_2024).sum() / rojas.ln_jov_2024.sum()) / 100
@@ -36,20 +37,20 @@ def main():
     veces_leon = {ef: n / jov for ef, n in necesarios.items()}
 
     md = ["# Piloto con grupo de comparación", "",
-          f"Jóvenes en hogares de personas sorteadas de las {len(rojas)} secciones rojas de León: ~{int(jov):,} "
+          f"Jóvenes en hogares de personas sorteadas de las {len(rojas)} secciones rojas de {config.NOMBRE}: ~{int(jov):,} "
           f"(~{int(jov / 2):,} por grupo). Participación juvenil predicha: {p:.1%}.", "",
-          f"**Efecto mínimo detectable en León: {mde:.1f} puntos** (significancia 5 %, potencia 80 %, efecto de "
+          f"**Efecto mínimo detectable en {config.NOMBRE}: {mde:.1f} puntos** (significancia 5 %, potencia 80 %, efecto de "
           f"diseño por hogar {EFECTO_DISENO}).", "",
           "| Efecto a detectar | Jóvenes necesarios (ambos grupos) | Equivale a |",
           "|---|---|---|"]
-    md += [f"| {ef} pts | {n:,} | {veces_leon[ef]:.0f} veces las secciones rojas de León |" for ef, n in necesarios.items()]
-    md += ["", "Lectura: con los efectos esperados (0.2 a 1.0 puntos), León solo no alcanza para medirlos. "
+    md += [f"| {ef} pts | {n:,} | {veces_leon[ef]:.0f} veces las secciones rojas de {config.NOMBRE} |" for ef, n in necesarios.items()]
+    md += ["", f"Lectura: con los efectos esperados (0.2 a 1.0 puntos), {config.NOMBRE} solo no alcanza para medirlos. "
            "El piloto debe aplicarse en las secciones rojas de varios municipios o de una o más entidades; "
            "el mismo código genera el semáforo para cualquier municipio."]
-    (RAIZ / "outputs" / "piloto.md").write_text("\n".join(md) + "\n")
+    (config.OUT / "piloto.md").write_text("\n".join(md) + "\n")
     print("\n".join(md))
 
-    ruta = RAIZ / "outputs" / "cifras_clave.json"
+    ruta = config.OUT / "cifras_clave.json"
     cifras = json.loads(ruta.read_text())
     cifras["piloto"] = {"jovenes_leon": int(jov), "mde_leon_pts": round(mde, 1),
                         "jovenes_necesarios": {str(k): v for k, v in necesarios.items()},

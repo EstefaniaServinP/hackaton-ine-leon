@@ -1,12 +1,13 @@
-"""HINE-7: descarga los Conteos Censales de Participación 2009-2024 y extrae Guanajuato.
+"""HINE-7: descarga los Conteos Censales de Participación 2009-2024 y extrae el estado de config.py.
 
 Uso: python scripts/01_descarga.py
-Resultado: data/raw/gto_<año>.csv, data/raw/descripcion_campos_<año>.txt y data/raw/descarga.log
+Resultado: data/raw/<estado>_<año>.csv (gto_<año>.csv para Guanajuato), data/raw/descripcion_campos_<año>.txt y data/raw/descarga.log
 """
 import urllib.request
 import zipfile
 from pathlib import Path
 
+import config
 BASE = "https://www.ine.mx/wp-content/uploads"
 URLS = {
     2009: f"{BASE}/2022/04/DatosAbiertos_DECEyEC_ConteosCensales2009.zip",
@@ -17,7 +18,7 @@ URLS = {
     2024: f"{BASE}/2025/08/DatosAbiertos_DECEyEC_ConteosCensales2024.zip",
 }
 
-RAW = Path(__file__).resolve().parent.parent / "data" / "raw"
+RAW = config.RAW
 ZIPS = RAW / "zips"
 
 
@@ -30,14 +31,15 @@ def descargar(anio, url):
 
 
 def extraer_gto(anio, zip_path):
-    """Extrae el CSV de Guanajuato y la descripción de campos; devuelve el número de filas de datos."""
+    """Extrae el CSV del estado y la descripción de campos; devuelve el número de filas de datos."""
     with zipfile.ZipFile(zip_path) as z:
         nombres = z.namelist()
-        csv = [n for n in nombres if n.lower().endswith(("_gto.csv", "_11.csv"))]
+        sufijos = tuple(f"_{s}.csv" for s in config.SUFIJOS) + (f"_{config.ENTIDAD:02d}.csv",)
+        csv = [n for n in nombres if n.lower().endswith(sufijos)]
         desc = [n for n in nombres if "descripcion" in n.lower()]
         if len(csv) != 1:
-            raise RuntimeError(f"{anio}: no encontré un único CSV de Guanajuato en {nombres[:5]}...")
-        salida = RAW / f"gto_{anio}.csv"
+            raise RuntimeError(f"{anio}: no encontré un único CSV de {config.ESTADO} en {nombres[:5]}...")
+        salida = config.csv_estado(anio)
         salida.write_bytes(z.read(csv[0]))
         if desc:
             (RAW / f"descripcion_campos_{anio}.txt").write_bytes(z.read(desc[0]))

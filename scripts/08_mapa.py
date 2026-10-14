@@ -11,13 +11,14 @@ Capas:
 import json
 from pathlib import Path
 
+import config
 import folium
 import geopandas as gpd
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
-PROC = RAIZ / "data" / "processed"
-OUT = RAIZ / "outputs"
+PROC = config.PROC
+OUT = config.OUT
 
 # Paleta de estado (dataviz): siempre acompañada de etiqueta en tooltip y leyenda
 COLOR = {"rojo": "#d03b3b", "amarillo": "#fab219", "verde": "#0ca30c", None: "#b5b4ae"}
@@ -35,12 +36,12 @@ def fmt(v, suf="%"):
 
 
 def cargar():
-    geo = gpd.read_file(PROC / "leon_secciones.geojson")[["seccion", "geometry"]]
+    geo = gpd.read_file(config.SECCIONES)[["seccion", "geometry"]]
     esc = pd.read_csv(PROC / "escenarios_2027.csv")
     top50 = set(pd.read_csv(OUT / "top50_caida.csv").seccion)
     g = geo.merge(esc, on="seccion", how="left")
     g["top50"] = g.seccion.isin(top50)
-    return g, gpd.read_file(PROC / "leon_escuelas.geojson")
+    return g, gpd.read_file(config.ESCUELAS)
 
 
 def tooltip_html(r, sem, pj, pt):
@@ -48,12 +49,15 @@ def tooltip_html(r, sem, pj, pt):
     if nivel is None:
         return f"<b>Sección {r.seccion}</b><br>Sin datos de participación (sección nueva o sin registro)"
     extra = "<br><b>Top 50 de mayor caída</b>" if r.top50 else ""
+    if r.pocos_jovenes:
+        extra += "<br><b>Alerta poco confiable:</b> menos de 100 jóvenes"
     interv = "Sí" if r.intervenida else "No"
     return (f"<b>Sección {r.seccion}</b> · {ETIQUETA[nivel]}{extra}<br>"
             f"Jóvenes 18-29 en 2027: <b>{fmt(r[pj])}</b><br>"
             f"Participación total 2027: {fmt(r[pt])}<br>"
             f"Histórico total: 2021 {fmt(r.part_2021)} · 2024 {fmt(r.part_2024)}<br>"
             f"Jóvenes en lista nominal: {int(r.ln_jov_2024):,} ({fmt(r.pct_jov)})<br>"
+            f"Jóvenes que votaron en 2024: mujeres {fmt(r.part_jov_mujeres_2024)} · hombres {fmt(r.part_jov_hombres_2024)}<br>"
             f"Recibe intervención: {interv} · Calidad del dato: {r.calidad}")
 
 
@@ -128,7 +132,7 @@ def main():
     todas = pd.read_csv(PROC / "escenarios_2027.csv")  # incluye las 13 secciones sin polígono
     conteos = {k: int((todas[v[1]] == "rojo").sum()) for k, v in ESCENARIOS.items()}
     m.get_root().html.add_child(folium.Element(leyenda(conteos)))
-    m.get_root().header.add_child(folium.Element("<title>Mapa de Alerta de Abstención · León 2027</title>"))
+    m.get_root().header.add_child(folium.Element(f"<title>Mapa de Alerta de Abstención · {config.NOMBRE} 2027</title>"))
     # Vista inicial: zona urbana (donde vive la mayoría del electorado); las rurales se ven al alejar
     x0, y0, x1, y1 = g[g.tipo_seccion == "U"].total_bounds
     m.fit_bounds([[y0, x0], [y1, x1]])
