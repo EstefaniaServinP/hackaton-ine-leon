@@ -22,7 +22,7 @@ OUT = config.OUT
 
 # Paleta de estado (dataviz): siempre acompañada de etiqueta en tooltip y leyenda
 COLOR = {"rojo": "#d03b3b", "amarillo": "#fab219", "verde": "#0ca30c", None: "#b5b4ae"}
-ETIQUETA = {"rojo": "Riesgo alto", "amarillo": "Riesgo medio", "verde": "Riesgo bajo", None: "Sin datos"}
+ETIQUETA = {"rojo": "Riesgo alto", "amarillo": "Riesgo medio", "verde": "Riesgo bajo", None: "Sin predicción para este corte (no es riesgo bajo)"}
 ESCENARIOS = {
     "A": ("A · Sin intervención", "semaforo_A", "part_jov_2027", "part_2027"),
     "pesimista": ("B · Con intervención (pesimista)", "semaforo_B_pesimista", "part_jov_B_pesimista", "part_B_pesimista"),
@@ -47,7 +47,8 @@ def cargar():
 def tooltip_html(r, sem, pj, pt):
     nivel = r[sem] if isinstance(r[sem], str) else None
     if nivel is None:
-        return f"<b>Sección {r.seccion}</b><br>Sin datos de participación (sección nueva o sin registro)"
+        return (f"<b>Sección {r.seccion}</b><br>Sin predicción para este corte: la sección está en la cartografía "
+                f"de diciembre de 2025, pero no en los datos de 2024. No significa riesgo bajo.")
     extra = "<br><b>Top 50 de mayor caída</b>" if r.top50 else ""
     if r.pocos_jovenes:
         extra += "<br><b>Alerta poco confiable:</b> menos de 100 jóvenes"
@@ -77,7 +78,7 @@ def capa_escenario(g, clave):
     return fg
 
 
-def leyenda(conteos):
+def leyenda(conteos, sin_poligono):
     filas = "".join(
         f'<div style="display:flex;align-items:center;gap:8px;margin:3px 0">'
         f'<span style="width:14px;height:14px;border-radius:3px;background:{COLOR[k]}"></span>'
@@ -98,6 +99,10 @@ def leyenda(conteos):
       <table style="margin-top:6px;color:#52514e;font-size:12px;width:100%"><tr><td colspan=2><b>Secciones en riesgo alto</b></td></tr>{tabla}</table>
       <div style="color:#52514e;font-size:11px;margin-top:6px">Elige el escenario en el control de capas (arriba a la derecha).
         Fuente: INE, Conteos Censales 2009–2024 y Base Geográfica Digital.</div>
+      <div style="color:#52514e;font-size:11px;margin-top:6px">Las estimaciones corresponden a las secciones de 2024.
+        {len(sin_poligono)} de ellas no existen en la cartografía de diciembre de 2025 y no se dibujan
+        ({sum(1 for c in sin_poligono.values() if c == "rojo")} rojas: {", ".join(str(s) for s, c in sin_poligono.items() if c == "rojo")}).
+        Su homologación está pendiente; ver entrega/secciones_sin_poligono.csv.</div>
     </div>"""
 
 
@@ -131,7 +136,9 @@ def main():
     folium.LayerControl(collapsed=False).add_to(m)
     todas = pd.read_csv(PROC / "escenarios_2027.csv")  # incluye las 13 secciones sin polígono
     conteos = {k: int((todas[v[1]] == "rojo").sum()) for k, v in ESCENARIOS.items()}
-    m.get_root().html.add_child(folium.Element(leyenda(conteos)))
+    dibujadas = set(g.seccion)
+    sin_poligono = {r.seccion: r.semaforo_A for r in todas.itertuples() if r.seccion not in dibujadas}
+    m.get_root().html.add_child(folium.Element(leyenda(conteos, sin_poligono)))
     m.get_root().header.add_child(folium.Element(f"<title>Mapa de Alerta de Abstención · {config.NOMBRE} 2027</title>"))
     # Vista inicial: zona urbana (donde vive la mayoría del electorado); las rurales se ven al alejar
     x0, y0, x1, y1 = g[g.tipo_seccion == "U"].total_bounds

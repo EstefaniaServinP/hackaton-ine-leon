@@ -40,7 +40,7 @@ escen = cargar("07_escenarios")
 NOMBRES = {"pos_mismo_tipo": "Posición en la intermedia anterior", "pos_anterior": "Posición en la elección anterior",
            "brecha_jov_anterior": "Brecha de jóvenes en la elección anterior", "pct_jov": "% de jóvenes en la lista",
            "pct_60": "% de 60 y más en la lista", "pct_muj": "% de mujeres en la lista",
-           "log_ln": "Tamaño de la lista (logaritmo)", "crec_ln": "Crecimiento de la lista en 6 años",
+           "log_ln": "Tamaño de la lista (logaritmo)", "crec_ln": "Crecimiento de la lista en 3 años (entre las dos elecciones anteriores)",
            "escolaridad": "Años de escolaridad (Censo 2020)"}
 AUSENTES = [0.05, 0.10, 0.20]  # parte de los jóvenes inscritos que ya no vive en la sección
 COSTO_VOLANTE = (1.0, 2.0)  # pesos por volante impreso (supuesto)
@@ -48,6 +48,8 @@ MIN_EXTRA = 1  # minutos extra por visita para entregar el volante y marcar el t
 
 
 def coeficientes(final):
+    if not hasattr(final, "steps") or not hasattr(final[-1], "coef_"):
+        return pd.Series(dtype=float)  # el método elegido no tiene coeficientes (por ejemplo, la regla simple)
     nombres = final[0].get_feature_names_out()
     c = pd.Series(final[-1].coef_, index=[x.split("__")[-1] for x in nombres])
     c = c[[k for k in NOMBRES]].rename(NOMBRES)

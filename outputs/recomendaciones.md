@@ -12,7 +12,7 @@ nominal de 18 a 29 años de 2024. Perfil sociodemográfico: Censo 2020 (INEGI).
 | 🟢 Riesgo bajo | 325 (42 %) | 115,870 (32 %) | 47.0 % | 11.0 años | 63 % |
 
 El número de secciones rojas depende de supuestos: va de 102 a 253 si el nivel de León en 2027 cambia ±3
-puntos o se mueven los cortes (`outputs/robustez.md`). Solo 45 son rojas aun con el margen de error.
+puntos o se mueven los cortes (`outputs/robustez.md`). 45 siguen en rojo aunque su estimación suba 6.8 puntos (prueba de sensibilidad, no garantía).
 
 ## 🔴 Riesgo alto — intervenir
 

@@ -5,10 +5,11 @@ Secciones en entrenamiento: 564 · en prueba: 688.
 
 | Modelo | MAE (puntos) |
 |---|---|
-| Línea base: igual que la elección anterior | 3.06 |
 | Línea base: igual que la elección del mismo tipo | 4.30 |
 | Línea base: promedio de ambas | 3.21 |
+| Regla simple (igual que la elección anterior) | 3.06 |
 | Regresión lineal | 2.86 |
+| Ridge (regresión lineal regularizada) | 2.87 |
 | Random forest | 3.35 |
 
 **Elegido: Regresión lineal.**

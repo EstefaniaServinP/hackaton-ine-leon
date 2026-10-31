@@ -34,10 +34,13 @@ modelo = cargar("06_modelo")
 escen = cargar("07_escenarios")
 
 
+ELEGIDO = []  # nombre del modelo que eligió 06_modelo.py en la validación (se llena en main)
+
+
 def validacion_con_intervalo(s, repeticiones=2000, semilla=7):
     tr = modelo.filas(s, 2015).dropna(subset=["y"])
     te = modelo.filas(s, 2021).dropna(subset=["y"])
-    mod = modelo.modelos()["Regresión lineal"].fit(tr[modelo.NUM + modelo.CAT], tr.y)
+    mod = modelo.modelos()[ELEGIDO[0]].fit(tr[modelo.NUM + modelo.CAT], tr.y)
     e_mod = np.abs(mod.predict(te[modelo.NUM + modelo.CAT]) - te.y.values)
     e_base = np.abs(te.pos_anterior.fillna(0).values - te.y.values)
     rng = np.random.default_rng(semilla)
@@ -49,7 +52,7 @@ def validacion_con_intervalo(s, repeticiones=2000, semilla=7):
 def error_juvenil(s, ciudad, ciudad_jov):
     tr = modelo.filas(s, 2015).dropna(subset=["y"])
     te = modelo.filas(s, 2021)
-    mod = modelo.modelos()["Regresión lineal"].fit(tr[modelo.NUM + modelo.CAT], tr.y)
+    mod = modelo.modelos()[ELEGIDO[0]].fit(tr[modelo.NUM + modelo.CAT], tr.y)
     pos = pd.Series(mod.predict(te[modelo.NUM + modelo.CAT]), index=te.index)
     part = ciudad[2015] + pos  # igual que en 2027: nivel de la intermedia anterior
     brecha = s.xs(2015).brecha_jov.reindex(te.index).fillna(ciudad_jov[2015] - ciudad[2015])
@@ -69,7 +72,7 @@ def tasa_de_acierto(s, ciudad, ciudad_jov, fraccion):
     (ordenar por cómo votaron sus jóvenes en 2018) y con elegir al azar."""
     tr = modelo.filas(s, 2015).dropna(subset=["y"])
     te = modelo.filas(s, 2021)
-    mod = modelo.modelos()["Regresión lineal"].fit(tr[modelo.NUM + modelo.CAT], tr.y)
+    mod = modelo.modelos()[ELEGIDO[0]].fit(tr[modelo.NUM + modelo.CAT], tr.y)
     pos = pd.Series(mod.predict(te[modelo.NUM + modelo.CAT]), index=te.index)
     pred = ciudad[2015] + pos + s.xs(2015).brecha_jov.reindex(te.index).fillna(ciudad_jov[2015] - ciudad[2015])
     d = pd.DataFrame({"pred": pred, "real": s.xs(2021).part_jov.reindex(te.index),
@@ -82,6 +85,7 @@ def tasa_de_acierto(s, ciudad, ciudad_jov, fraccion):
 
 def main():
     s, ciudad, ciudad_jov = modelo.tasas(pd.read_csv(config.MAESTRA))
+    ELEGIDO.append(modelo.elegir(s)[0])
     v = validacion_con_intervalo(s)
     ej = error_juvenil(s, ciudad, ciudad_jov)
     e = pd.read_csv(PROC / "escenarios_2027.csv")

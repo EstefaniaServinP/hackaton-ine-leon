@@ -90,7 +90,7 @@
    "Años de escolaridad (Censo 2020)": 2.1,
    "Posición en la intermedia anterior": 2.03,
    "% de 60 y más en la lista": 1.33,
-   "Crecimiento de la lista en 6 años": -0.4,
+   "Crecimiento de la lista en 3 años (entre las dos elecciones anteriores)": -0.4,
    "Tamaño de la lista (logaritmo)": -0.32,
    "% de jóvenes en la lista": 0.12,
    "Brecha de jóvenes en la elección anterior": 0.06,
@@ -159,5 +159,71 @@
    "horas_cae": 703
   },
   "n_entrenamiento": 1252
- }
+ },
+ "comparacion_modelos": [
+  {
+   "municipio": "León",
+   "secciones_prueba": 688,
+   "filas_entrenamiento": 564,
+   "con_censo": true,
+   "errores": {
+    "Regla simple (igual que la elección anterior)": 3.06,
+    "Regresión lineal": 2.86,
+    "Ridge (regresión lineal regularizada)": 2.87,
+    "Random forest": 3.35,
+    "Gradient boosting": 3.35,
+    "XGBoost (versión de scikit-learn)": 3.55,
+    "Red neuronal": 3.45
+   },
+   "elegido": "Regresión lineal"
+  },
+  {
+   "municipio": "Irapuato",
+   "secciones_prueba": 234,
+   "filas_entrenamiento": 222,
+   "con_censo": true,
+   "errores": {
+    "Regla simple (igual que la elección anterior)": 3.61,
+    "Regresión lineal": 3.66,
+    "Ridge (regresión lineal regularizada)": 3.6,
+    "Random forest": 4.03,
+    "Gradient boosting": 4.13,
+    "XGBoost (versión de scikit-learn)": 4.34,
+    "Red neuronal": 3.76
+   },
+   "elegido": "Ridge (regresión lineal regularizada)"
+  },
+  {
+   "municipio": "Juárez",
+   "secciones_prueba": 949,
+   "filas_entrenamiento": 1032,
+   "con_censo": false,
+   "errores": {
+    "Regla simple (igual que la elección anterior)": 3.44,
+    "Regresión lineal": 3.84,
+    "Ridge (regresión lineal regularizada)": 3.86,
+    "Random forest": 3.81,
+    "Gradient boosting": 4.09,
+    "XGBoost (versión de scikit-learn)": 4.05,
+    "Red neuronal": 4.07
+   },
+   "elegido": "Regla simple (igual que la elección anterior)"
+  },
+  {
+   "municipio": "Chihuahua",
+   "secciones_prueba": 467,
+   "filas_entrenamiento": 507,
+   "con_censo": false,
+   "errores": {
+    "Regla simple (igual que la elección anterior)": 3.75,
+    "Regresión lineal": 3.68,
+    "Ridge (regresión lineal regularizada)": 3.65,
+    "Random forest": 3.74,
+    "Gradient boosting": 3.65,
+    "XGBoost (versión de scikit-learn)": 3.57,
+    "Red neuronal": 4.15
+   },
+   "elegido": "Ridge (regresión lineal regularizada)"
+  }
+ ]
 }

@@ -1,83 +1,83 @@
 {
- "rojas": 109,
- "amarillas": 96,
- "verdes": 57,
- "jovenes_en_rojas": 78995,
- "pct_jovenes_en_rojas": 60,
- "pct_secciones_rojas": 42,
+ "rojas": 112,
+ "amarillas": 92,
+ "verdes": 58,
+ "jovenes_en_rojas": 76898,
+ "pct_jovenes_en_rojas": 59,
+ "pct_secciones_rojas": 43,
  "rojas_top50": 38,
- "rojas_cayendo": 42,
- "rojas_rurales_mixtas": 42,
+ "rojas_cayendo": 44,
+ "rojas_rurales_mixtas": 43,
  "secciones_pocos_jovenes": 5,
  "rojas_pocos_jovenes": 0,
- "volantes": 26222,
- "jovenes_alcanzados": 22339,
+ "volantes": 25519,
+ "jovenes_alcanzados": 22011,
  "alcance_medio_hogares_pct": 30,
- "rojas_escuela_cerca": 34,
+ "rojas_escuela_cerca": 36,
  "primer_voto_leon": 27359,
- "primer_voto_rojas": 16485,
- "primer_voto_rojas_escuela_cerca": 3221,
+ "primer_voto_rojas": 15817,
+ "primer_voto_rojas_escuela_cerca": 3377,
  "rojas_sin_censo": 13,
  "votos": {
-  "pesimista": 45,
-  "medio": 112,
-  "optimista": 223
+  "pesimista": 44,
+  "medio": 110,
+  "optimista": 220
  },
  "salen_de_rojo": {
-  "pesimista": 0,
-  "medio": 1,
-  "optimista": 3
+  "pesimista": 3,
+  "medio": 4,
+  "optimista": 5
  },
  "pesos_por_voto": {
-  "pesimista": 587.0,
-  "medio": 235.0,
-  "optimista": 117.0
+  "pesimista": 580.0,
+  "medio": 233.0,
+  "optimista": 116.0
  },
  "participacion_total": {
-  "A": 40.2,
-  "pesimista": 40.2,
-  "medio": 40.2,
+  "A": 40.3,
+  "pesimista": 40.3,
+  "medio": 40.3,
   "optimista": 40.3
  },
  "participacion_jovenes": {
-  "A": 29.3,
-  "pesimista": 29.3,
+  "A": 29.4,
+  "pesimista": 29.4,
   "medio": 29.4,
   "optimista": 29.5
  },
  "robustez": {
-  "mae_modelo": 3.66,
+  "mae_modelo": 3.6,
   "mae_regla": 3.61,
   "ic_mejora": [
-   -0.36,
-   0.24
+   -0.3,
+   0.31
   ],
   "error_real_q80": 7.9,
-  "error_rel_q80": 7.2,
+  "error_rel_q80": 7.3,
   "rojas_firmes": 40,
   "acierto": {
-   "modelo": 82,
-   "regla": 80,
-   "azar": 42
+   "modelo": 83,
+   "regla": 79,
+   "azar": 43
   },
   "rojas_rango": [
-   86,
+   85,
    144
   ],
   "sensibilidad": {
-   "Cortes 27.5 % / 37.5 %": 92,
-   "Cortes 30 % / 40 %": 109,
+   "Cortes 27.5 % / 37.5 %": 91,
+   "Cortes 30 % / 40 %": 112,
    "Cortes 32.5 % / 42.5 %": 138,
    "Nivel de Irapuato en 2027 -3 puntos": 144,
-   "Nivel de Irapuato en 2027 +3 puntos": 86
+   "Nivel de Irapuato en 2027 +3 puntos": 85
   }
  },
  "piloto": {
-  "jovenes_leon": 22338,
-  "mde_leon_pts": 1.9,
+  "jovenes_leon": 22011,
+  "mde_leon_pts": 2.0,
   "jovenes_necesarios": {
-   "0.5": 336193,
-   "1.0": 84049
+   "0.5": 335220,
+   "1.0": 83805
   },
   "veces_leon": {
    "0.5": 15,
@@ -86,44 +86,44 @@
  },
  "anexo": {
   "coeficientes": {
-   "Posición en la elección anterior": 5.74,
-   "% de 60 y más en la lista": 1.92,
-   "Años de escolaridad (Censo 2020)": 1.82,
-   "Tamaño de la lista (logaritmo)": -0.65,
-   "% de jóvenes en la lista": 0.46,
-   "Posición en la intermedia anterior": 0.3,
-   "% de mujeres en la lista": 0.22,
-   "Crecimiento de la lista en 6 años": 0.12,
-   "Brecha de jóvenes en la elección anterior": 0.12
+   "Posición en la elección anterior": 5.49,
+   "% de 60 y más en la lista": 1.85,
+   "Años de escolaridad (Censo 2020)": 1.81,
+   "Tamaño de la lista (logaritmo)": -0.62,
+   "Posición en la intermedia anterior": 0.45,
+   "% de jóvenes en la lista": 0.33,
+   "% de mujeres en la lista": 0.25,
+   "Brecha de jóvenes en la elección anterior": 0.15,
+   "Crecimiento de la lista en 6 años": 0.1
   },
   "umbral_ns": [
    {
     "umbral": "10%",
     "anios_descartados": 122,
     "error_validacion": 3.82,
-    "rojas": 117,
-    "en_comun": 109
+    "rojas": 116,
+    "en_comun": 112
    },
    {
     "umbral": "20%",
     "anios_descartados": 105,
     "error_validacion": 3.66,
-    "rojas": 109,
-    "en_comun": 109
+    "rojas": 112,
+    "en_comun": 112
    },
    {
     "umbral": "30%",
     "anios_descartados": 87,
     "error_validacion": 3.73,
-    "rojas": 113,
-    "en_comun": 108
+    "rojas": 112,
+    "en_comun": 111
    },
    {
     "umbral": "Sin descartar",
     "anios_descartados": 0,
     "error_validacion": 3.48,
-    "rojas": 107,
-    "en_comun": 105
+    "rojas": 120,
+    "en_comun": 106
    }
   ],
   "padron": {
@@ -139,11 +139,11 @@
    "ausentes": [
     {
      "ausentes": "5%",
-     "rojas": 100
+     "rojas": 99
     },
     {
      "ausentes": "10%",
-     "rojas": 86
+     "rojas": 85
     },
     {
      "ausentes": "20%",
@@ -153,10 +153,10 @@
   },
   "costo": {
    "impresion": [
-    26222,
-    52444
+    25519,
+    51038
    ],
-   "horas_cae": 437
+   "horas_cae": 425
   },
   "n_entrenamiento": 456
  }

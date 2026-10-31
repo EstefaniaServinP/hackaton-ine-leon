@@ -5,16 +5,17 @@ Secciones en entrenamiento: 222 · en prueba: 234.
 
 | Modelo | MAE (puntos) |
 |---|---|
-| Línea base: igual que la elección anterior | 3.61 |
 | Línea base: igual que la elección del mismo tipo | 4.96 |
 | Línea base: promedio de ambas | 3.95 |
+| Regla simple (igual que la elección anterior) | 3.61 |
 | Regresión lineal | 3.66 |
+| Ridge (regresión lineal regularizada) | 3.60 |
 | Random forest | 4.03 |
 
-**Elegido: Regresión lineal.**
+**Elegido: Ridge (regresión lineal regularizada).**
 
 Nivel de Irapuato supuesto para 2027 (participación capturada de la intermedia 2021): 39.7 % total, 28.9 % jóvenes 18-29.
 
 Secciones con predicción: 262 · calidad: {'completa': 237, 'parcial': 25}.
-Participación 2027 predicha — mediana 42.4 %, rango 21.0–73.5 %.
-Jóvenes 2027 predicha — mediana 31.8 %.
+Participación 2027 predicha — mediana 42.4 %, rango 21.5–73.5 %.
+Jóvenes 2027 predicha — mediana 31.9 %.

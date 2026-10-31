@@ -21,17 +21,19 @@ from pathlib import Path
 import config
 import numpy as np
 import pandas as pd
+from sklearn.base import BaseEstimator, RegressorMixin, clone
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, RidgeCV
 from sklearn.metrics import mean_absolute_error
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 RAIZ = Path(__file__).resolve().parent.parent
 PROC = config.PROC
-CENSO = pd.read_csv(PROC / "censo_secciones.csv").set_index("seccion")
+_CENSO = PROC / "censo_secciones.csv"  # sin Censo descargado, la escolaridad queda vacía y el modelo sigue sin ella
+CENSO = pd.read_csv(_CENSO).set_index("seccion") if _CENSO.exists() else pd.DataFrame(columns=["escolaridad"])
 OUT = config.OUT
 ANIOS = [2009, 2012, 2015, 2018, 2021, 2024]
 MAX_NS = 0.20
@@ -78,25 +80,39 @@ def filas(s, t):
     return x
 
 
+class ReglaSimple(BaseEstimator, RegressorMixin):
+    """La regla que haría cualquiera sin modelo: cada sección queda igual que en la elección anterior."""
+    def fit(self, X, y=None):
+        return self
+
+    def predict(self, X):
+        return X.pos_anterior.fillna(0).to_numpy()
+
+
+REGLA = "Regla simple (igual que la elección anterior)"
+
+
 def modelos():
+    """Candidatos. En cada municipio se usa el que menos se equivoca en la validación (ver elegir)."""
     prep_lin = ColumnTransformer([
         ("num", make_pipeline(SimpleImputer(strategy="median", add_indicator=True), StandardScaler()), NUM),
         ("cat", OneHotEncoder(handle_unknown="ignore"), CAT)])
     prep_rf = ColumnTransformer([("num", "passthrough", NUM), ("cat", OneHotEncoder(handle_unknown="ignore"), CAT)])
     return {
+        REGLA: ReglaSimple(),
         "Regresión lineal": make_pipeline(prep_lin, LinearRegression()),
+        "Ridge (regresión lineal regularizada)": make_pipeline(clone(prep_lin), RidgeCV(alphas=np.logspace(-2, 3, 30))),
         "Random forest": make_pipeline(prep_rf, RandomForestRegressor(n_estimators=500, min_samples_leaf=5,
                                                                        random_state=42, n_jobs=-1)),
     }
 
 
-def predecir(s, ciudad, ciudad_jov):
-    """Valida, elige el modelo, lo reentrena y predice 2027. Devuelve (predicción, validación, modelo final)."""
-    # --- Validación temporal: entrenar con la intermedia 2015, probar con la intermedia 2021 ---
+def elegir(s):
+    """Validación temporal: entrenar con la intermedia 2015 y probar con la intermedia 2021.
+    Devuelve el candidato con menor error, los errores de todos y los datos de entrenamiento y prueba."""
     tr, te = filas(s, 2015).dropna(subset=["y"]), filas(s, 2021).dropna(subset=["y"])
     mismo = te.pos_mismo_tipo.fillna(te.pos_anterior).fillna(0)
-    res = {"Línea base: igual que la elección anterior": mean_absolute_error(te.y, te.pos_anterior.fillna(0)),
-           "Línea base: igual que la elección del mismo tipo": mean_absolute_error(te.y, mismo),
+    res = {"Línea base: igual que la elección del mismo tipo": mean_absolute_error(te.y, mismo),
            "Línea base: promedio de ambas": mean_absolute_error(te.y, (mismo + te.pos_anterior.fillna(mismo)) / 2)}
     ajustados = {}
     for nombre, mod in modelos().items():
@@ -104,7 +120,12 @@ def predecir(s, ciudad, ciudad_jov):
         res[nombre] = mean_absolute_error(te.y, mod.predict(te[NUM + CAT]))
         ajustados[nombre] = mod
     candidatos = {k: v for k, v in res.items() if k in ajustados}
-    mejor = min(candidatos, key=candidatos.get)
+    return min(candidatos, key=candidatos.get), res, tr, te
+
+
+def predecir(s, ciudad, ciudad_jov):
+    """Valida, elige el modelo, lo reentrena y predice 2027. Devuelve (predicción, validación, modelo final)."""
+    mejor, res, tr, te = elegir(s)
 
     # --- Modelo final: entrenar con las intermedias 2015 y 2021, predecir 2027 ---
     todo = pd.concat([tr, te])

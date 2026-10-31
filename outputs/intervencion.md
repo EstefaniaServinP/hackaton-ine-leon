@@ -17,13 +17,19 @@ publicarse antes de iniciar. Así se evita que la selección de lugares favorezc
 | Componente | Quién | Qué hace | ¿Se cuantifica? |
 |---|---|---|---|
 | **Volante joven** | CAE | En la visita que **ya hace** al hogar de cada persona sorteada (INE, Guía CAE 2023-2024, pp. 107–108), deja un volante neutral que invita a los jóvenes del hogar a votar en 2027 y a conocer el proceso (acercarse al CAE o a un simulacro). Propone hacer un plan ("¿A qué hora vas a votar y con quién vas?"; Nickerson y Rogers, 2010). Incluye un QR a "Ubica tu casilla" del INE y una línea más: **"Si alguien de tu familia ya se mudó, recuérdale actualizar su credencial para votar donde vive ahora."**; **no recolecta datos**. Sin colores, frases ni símbolos asociados a partidos o candidaturas. | Sí |
-| **Credencial cerca de la escuela + SMS voluntario** | Módulos itinerantes del RFE | Antes del 25 de enero de 2027 (cierre del registro para quienes cumplen 18 antes del 6 de junio; Expansión, 2 sep 2026), módulos en planteles cercanos a secciones rojas. Votarán por primera vez unos 81,100 jóvenes de León (12 a 14 años en el Censo 2020); al menos 33,000 (41 %) viven en secciones rojas y unos 9,050 en las 70 rojas con escuela a 1 km o menos de su centro; las 10 con más concentran casi la mitad. Ahí el joven puede dar su número **con consentimiento propio** para recibir un SMS recordatorio neutral. No usa datos del padrón, que son confidenciales (LGIPE, art. 126). Evidencia: +3.0 pts (Dale y Strauss, 2009) y +4.6 pts en jóvenes de Noruega (Bergh et al., 2021). | No (no sabemos cuántos aceptarían); piloto propio |
-| Brigadas escolares | SE | Pláticas en preparatorias y universidades cercanas, **si los planteles lo autorizan y la carga operativa de 2027 lo permite**. 70 secciones rojas tienen una a 1 km o menos. | No (sin evidencia) |
-| Simulacros abiertos | CAE y SE | Invitar a jóvenes interesados a los simulacros, que ocurren en la segunda etapa de capacitación, más cerca de la jornada (Guía CAE, p. 80), **sin afectar su propósito de capacitar a los FMDC**. | No (sin evidencia) |
+| **Credencial cerca de la escuela + SMS voluntario** | Módulos itinerantes del RFE | Antes del 25 de enero de 2027 (cierre del registro para quienes cumplen 18 antes del 6 de junio; Expansión, 2 sep 2026), módulos en planteles cercanos a secciones rojas. La generación que cumple 18 entre 2023 y 2026 (12 a 14 años en el Censo 2020, aproximación) suma unos 81,100 jóvenes en León; al menos 33,000 (41 %) viven en secciones rojas y unos 9,050 en las 70 rojas con escuela a 1 km o menos de su centro; las 10 con más concentran casi la mitad. Antecedentes oficiales: módulos en preparatorias y universidades en Hidalgo (27 nov 2023 a 22 ene 2024) y Puebla (2023) (Central Electoral, INE). Ahí el joven puede dar su número **con consentimiento propio** para recibir un SMS recordatorio neutral. No usa datos del padrón, que son confidenciales (LGIPE, art. 126). Evidencia: +3.0 pts (Dale y Strauss, 2009) y +4.6 pts en jóvenes de Noruega (Bergh et al., 2021). | No (no sabemos cuántos aceptarían); piloto propio |
+| Brigadas escolares | SE | Pláticas en preparatorias y universidades cercanas, **si los planteles lo autorizan y la carga operativa de 2027 lo permite**. 70 secciones rojas tienen una a 1 km o menos. Conviene coordinarlas con las elecciones estudiantiles que el IEEG ya apoya en preparatorias de León, a petición del plantel o mediante el convenio SEG-IEEG del 6 de junio de 2023: de 2 planteles en 2018-2019 a 9 en 2025-2026 (IEEG, respuesta a la solicitud de información con folio 2180199900010626, 30 oct 2026). El IEEG aclaró que no tiene un programa llamado IEElige. | No (sin evidencia) |
+| Simulacros abiertos | CAE y SE | Invitar a jóvenes interesados a los simulacros, que ocurren en la segunda etapa de capacitación, más cerca de la jornada (Guía CAE, p. 80), **sin afectar su propósito de capacitar a los FMDC**. El INE ya realiza simulaciones controladas de votación con prototipos de boleta para medir comprensión y tiempos (Central Electoral, INE, 24 jul 2026); un simulacro con jóvenes podría seguir el mismo formato de cuestionario. En León ya hay infraestructura: el INE apoyó con 76 centros de urnas digitales la consulta Participa León del 20 de enero de 2026 (Publimetro, 26 ene 2026). | No (sin evidencia) |
 | Recordatorio final | INE | Difusión institucional en las últimas semanas, general y sin datos personales. | No |
 
 **Diferencia con la carta-notificación:** la carta ya invita a votar (experiencia propia del equipo), pero
 está dirigida a la persona sorteada, no a los jóvenes del hogar.
+
+**Qué aporta:** el volante reutiliza mensajes que el INE ya difunde (votar, actualizar el domicilio, voto
+desde el extranjero). Lo que aporta es a quién se dirige (los jóvenes del hogar), dónde (solo en secciones rojas,
+con un criterio público), que propone un plan para votar y que proponemos medir su efecto con un piloto aleatorio. No
+encontramos evaluaciones públicas del efecto de un material impreso del INE; el piloto propuesto lo mediría. La difusión general también
+ayuda, pero no se mide por sección: el semáforo sirve para concentrarla donde más falta.
 
 ## Alcance
 
@@ -32,7 +38,9 @@ está dirigida a la persona sorteada, no a los jóvenes del hogar.
   uno por hogar localizado.
 - En promedio se alcanza al **29 %** de los hogares de cada sección roja (hogares localizados entre viviendas
   habitadas del Censo 2020), es decir, a unos **36,200 jóvenes** que viven en esos hogares.
-- **No se supone conversación con el joven:** quien abre la puerta casi nunca es él. El efecto se modela
+- **No se supone conversación con el joven:** quién abre depende del día y la hora; por lo general abren
+  jóvenes o adultos que están en casa mientras los demás trabajan (experiencia de campo del equipo), pero no
+  siempre el joven y no siempre hay tiempo de platicar. Por prudencia, el efecto se modela
   como el de un material impreso que llega al hogar.
 
 ## Efecto supuesto por joven que vive en un hogar alcanzado
@@ -68,7 +76,7 @@ el domicilio del padrón.
 
 ## Abstención aparente: jóvenes que ya no viven ahí
 
-En Guanajuato el INE no localizó al 21.6 % de la ciudadanía sorteada; en el país, la razón principal fue el
+En Guanajuato el INE no localizó al 21.6 % de la ciudadanía visitada; en el país, la razón principal fue el
 cambio de domicilio (45.6 %) y la segunda, residir en el extranjero (12.2 %) (INE, informe de la primera etapa
 2023-2024, pp. 73–74). Esas personas siguen en la lista nominal y cuentan como "no votó". Por eso:
 
@@ -105,3 +113,5 @@ y anónima. Con ~10,000 jóvenes que acepten se detectaría un efecto de 2.7 pun
 - Ubicar a los jóvenes de cada hogar y usar los registros de marca de voto para evaluar requiere revisión
   jurídica del INE en materia de datos personales.
 - La experiencia de campo del equipo es de una elección presidencial (2018).
+- El modelo no incluye la distancia a la casilla ni el estado de los caminos. En zonas alejadas o sin
+  pavimentar, la lluvia puede impedir llegar a votar; queda como variable para una versión futura.

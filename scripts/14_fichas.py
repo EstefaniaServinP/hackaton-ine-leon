@@ -46,7 +46,7 @@ def dato(ax, y, etiqueta, valor):
 def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
     fig = plt.figure(figsize=(11, 8.5), dpi=150, facecolor=SUP)
     fig.text(0.05, 0.93, f"Sección {r.seccion}", fontsize=24, fontweight="bold", color=TXT)
-    fig.text(0.05, 0.895, f"{TIPO.get(r.tipo_seccion, r.tipo_seccion)} · Distrito federal {int(r.distrito_federal):02d} · "
+    fig.text(0.05, 0.895, f"{TIPO.get(r.tipo_seccion, r.tipo_seccion)} · Distrito Electoral Federal {int(r.distrito_federal):02d} · "
              f"Riesgo alto · Prioridad 1 (entre las 50 que más se han quedado atrás)", fontsize=12, color=TXT2)
 
     # Datos clave
@@ -58,7 +58,7 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
         ("Votaron en 2024: hombres jóvenes", f"{r.part_jov_hombres_2024:.0f} %"),
         ("Años de escolaridad promedio (2020)", "—" if pd.isna(r.escolaridad) else f"{r.escolaridad:.1f}"),
         ("Viviendas con internet (2020)", "—" if pd.isna(r.pct_internet) else f"{r.pct_internet:.0f} %"),
-        ("Votarán por primera vez en 2027 (aprox.)", "—" if pd.isna(r.primer_voto) else f"{int(r.primer_voto):,}"),
+        ("Cumplen 18 entre 2023 y 2026 (aprox.)", "—" if pd.isna(r.primer_voto) else f"{int(r.primer_voto):,}"),
         ("Volantes estimados (hogares visitados)", f"{int(r.volantes):,}"),
         ("Calidad del dato", "Poco confiable: menos de 100 jóvenes" if r.pocos_jovenes else str(r.calidad).capitalize()),
     ]
@@ -90,7 +90,7 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
     if len(propia):
         propia.plot(ax=ax3, color=ROJO, edgecolor=TXT, linewidth=0.8)
     else:
-        ax3.text(0.5, 0.5, "La sección no aparece en la cartografía\nde 2025: se dividió o cambió de límites.",
+        ax3.text(0.5, 0.5, "Sin representación espacial: la sección no\nexiste en la cartografía de dic. 2025.\nHomologación pendiente.",
                  ha="center", va="center", fontsize=10, color=TXT, transform=ax3.transAxes,
                  bbox={"facecolor": SUP, "edgecolor": REJ})
     ax3.set_title(f"Ubicación en {config.NOMBRE}", loc="left", fontsize=11, color=TXT)

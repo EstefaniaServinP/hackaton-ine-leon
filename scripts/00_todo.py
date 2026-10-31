@@ -51,7 +51,8 @@ def main():
     if (args.entidad, args.municipio) != (11, 20) and args.nombre == "León":
         a.error("indica --nombre del municipio")
     env = {**os.environ, "ENTIDAD": str(args.entidad), "MUNICIPIO": str(args.municipio), "NOMBRE": args.nombre}
-    for paso in PASOS[PASOS.index(args.desde):]:
+    pasos = PASOS + (["16_comparar_modelos"] if (args.entidad, args.municipio) == (11, 20) else [])
+    for paso in pasos[pasos.index(args.desde):]:
         print(f"\n=== {paso} ({args.nombre}) ===", flush=True)
         subprocess.run([sys.executable, str(SCRIPTS / f"{paso}.py")], env=env, check=True)
 

@@ -38,7 +38,7 @@ NIVELES = ["verde", "amarillo", "rojo"]
 SORTEO = 0.13
 LOCALIZABLE = 1 - config.NO_LOCALIZADO_PCT / 100  # Guanajuato: no se localizó al 21.57 % (INE, informe 1a etapa 2023-2024, p. 73)
 EFECTO = {"pesimista": 0.2, "medio": 0.5, "optimista": 1.0}  # puntos por joven en hogar alcanzado
-MIN_JOVENES = 100  # con menos jóvenes, el porcentaje varía ±9 pts solo por azar: alerta poco confiable
+MIN_JOVENES = 100  # con menos jóvenes, el porcentaje cambia mucho de una elección a otra: alerta poco confiable
 CERCA_M = 1000  # escuela "cercana": preparatoria o universidad a 1 km o menos del centro de la sección
 
 

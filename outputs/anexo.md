@@ -4,17 +4,17 @@
 
 Puntos de posición que cambia la predicción cuando la variable sube una desviación estándar.
 
-|                                           |   Coeficiente |
-|:------------------------------------------|--------------:|
-| Posición en la elección anterior          |          4.73 |
-| Años de escolaridad (Censo 2020)          |          2.1  |
-| Posición en la intermedia anterior        |          2.03 |
-| % de 60 y más en la lista                 |          1.33 |
-| Crecimiento de la lista en 6 años         |         -0.4  |
-| Tamaño de la lista (logaritmo)            |         -0.32 |
-| % de jóvenes en la lista                  |          0.12 |
-| Brecha de jóvenes en la elección anterior |          0.06 |
-| % de mujeres en la lista                  |         -0.02 |
+|                                                                         |   Coeficiente |
+|:------------------------------------------------------------------------|--------------:|
+| Posición en la elección anterior                                        |          4.73 |
+| Años de escolaridad (Censo 2020)                                        |          2.1  |
+| Posición en la intermedia anterior                                      |          2.03 |
+| % de 60 y más en la lista                                               |          1.33 |
+| Crecimiento de la lista en 3 años (entre las dos elecciones anteriores) |         -0.4  |
+| Tamaño de la lista (logaritmo)                                          |         -0.32 |
+| % de jóvenes en la lista                                                |          0.12 |
+| Brecha de jóvenes en la elección anterior                               |          0.06 |
+| % de mujeres en la lista                                                |         -0.02 |
 
 ## 2. Umbral de cuadernillos sin capturar
 

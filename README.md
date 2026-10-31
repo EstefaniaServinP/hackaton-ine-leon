@@ -1,6 +1,6 @@
 # Mapa de Alerta de Abstención en León
 
-Autores: **Estefania Portillo Balderas** y **Mauricio Caudillo Puente**.
+Autores: **Estefania Portillo Balderas** y **Omar Mondragón Barrientos**.
 
 Proyecto para el Hackathon INE 2026 **"Hackea la participación: Datos que construyen democracia"**,
 **Reto 2: Predicción y escenarios de riesgo de abstención**.
@@ -47,6 +47,7 @@ python3 -m venv .venv
 .venv/bin/python scripts/12_piloto.py        # efecto mínimo detectable del piloto con grupo de comparación
 .venv/bin/python scripts/14_fichas.py        # una ficha por sección de prioridad 1 (anexo)
 .venv/bin/python scripts/15_anexo.py         # coeficientes, umbral de cuadernillos, padrón desactualizado y costos
+.venv/bin/python scripts/16_comparar_modelos.py # 7 métodos en León, Irapuato, Juárez y Chihuahua
 ```
 
 ## Usarlo en otro municipio
@@ -64,9 +65,15 @@ El análisis no está amarrado a León. Todo se configura en [scripts/config.py]
 Los resultados quedan en `outputs/<nombre>/` (semáforo, mapa, fichas, piloto, robustez) y no tocan los de León.
 
 **Prueba con Irapuato** (mismo estado, sin descargar nada más): ver [outputs/irapuato/](outputs/irapuato/).
-109 de 262 secciones en riesgo alto, con el 60 % de los jóvenes; tasa de acierto de 82 % (al azar, 42 %).
-Ahí el modelo empata con la regla simple (error de 3.66 contra 3.61 puntos): el orden del semáforo se sostiene,
-pero la ventaja del modelo que vimos en León no se repite en todos lados.
+112 de 262 secciones en riesgo alto, con el 59 % de los jóvenes; tasa de acierto de 83 % (al azar, 43 %).
+Ahí el código eligió Ridge, que empata con la regla simple (error de 3.60 contra 3.61 puntos): el orden del semáforo
+se sostiene, pero la ventaja del modelo que vimos en León no se repite en todos lados.
+
+**¿Un modelo más poderoso?** `scripts/16_comparar_modelos.py` prueba 7 métodos (regla simple, regresión lineal, Ridge,
+random forest, gradient boosting, XGBoost y una red neuronal) en León, Irapuato, Juárez y Chihuahua con el mismo
+examen. Ninguno gana en todos lados y los complejos casi nunca ganan; en Juárez, el de más secciones, gana la regla
+simple. Ver [outputs/comparacion_modelos.md](outputs/comparacion_modelos.md). Por eso `06_modelo.py` elige en cada
+municipio, entre cuatro candidatos simples, el que menos se equivoca.
 
 **Para un municipio de otro estado** hay que descargar a mano dos cosas antes de correrlo:
 
@@ -84,7 +91,7 @@ como Irapuato, tendrá más secciones en rojo.
 
 | Archivo | Contenido |
 |---|---|
-| `outputs/mapa_escenarios.html` | Mapa interactivo: semáforo por sección, selector de escenario, top 50, escuelas |
+| `outputs/mapa_escenarios.html` | Mapa interactivo: semáforo por sección, selector de escenario, top 50, escuelas. Las estimaciones son del universo 2024: 13 secciones (7 rojas) no existen en la cartografía de dic. 2025 y no se dibujan (`outputs/entrega/secciones_sin_poligono.csv`); los 82 polígonos grises no tienen predicción para este corte (`poligonos_sin_prediccion.csv`). Homologación pendiente |
 | `outputs/fig_edad_leon.png`, `outputs/fig_edad_quinquenal.png` | Participación por edad 2009–2024 |
 | `outputs/fig_tiposec.png` | León vs. resto del estado y por tipo de sección |
 | `outputs/metricas_modelo.md` | Validación del modelo |
@@ -94,8 +101,9 @@ como Irapuato, tendrá más secciones en rojo.
 | `outputs/piloto.md` | Piloto con grupo de comparación: efecto mínimo detectable y escala necesaria |
 | `outputs/fichas_prioridad1.pdf` | Ficha de una página por sección de prioridad 1 |
 | `outputs/anexo.md` | Coeficientes del modelo, prueba del umbral de cuadernillos, abstención aparente por padrón desactualizado y costos |
+| `outputs/comparacion_modelos.md` | ¿Un modelo más complejo predice mejor? 7 métodos en 4 municipios |
 | `outputs/cifras_clave.json` | Cifras que deben coincidir en el reporte y la presentación |
-| `outputs/robustez.md` | Margen de error, secciones rojas firmes, sensibilidad y escenario con evidencia europea |
+| `outputs/robustez.md` | Error del modelo, intervalo de confianza, tasa de acierto, prueba de sensibilidad de las rojas y sensibilidad del semáforo |
 | `outputs/notas_secciones.md`, `outputs/notas_caida.md` | Decisiones metodológicas |
 | `outputs/entrega/` | Base anonimizada y escenarios (CSV y GeoJSON) |
 

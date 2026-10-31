@@ -29,7 +29,13 @@ def main():
     g = geo.merge(esc, on="seccion", how="inner")
     assert {"semaforo_A", "semaforo_B_medio", "part_jov_2027", "part_jov_B_medio"} <= set(g.columns)
     g.to_file(ENTREGA / "escenarios_2027.geojson", driver="GeoJSON")
+    # Universo 2024 vs. cartografía (corte del SIGE): secciones con predicción sin polígono y polígonos sin predicción
+    sin_poligono = esc[~esc.seccion.isin(geo.seccion)][["seccion", "semaforo_A", "prioridad", "ln_jov_2024"]]
+    sin_poligono.to_csv(ENTREGA / "secciones_sin_poligono.csv", index=False)
+    geo[~geo.seccion.isin(esc.seccion)][["seccion"]].to_csv(ENTREGA / "poligonos_sin_prediccion.csv", index=False)
     print(f"base_anonimizada.csv: {len(base):,} filas · escenarios: {len(esc)} secciones · geojson: {len(g)} polígonos")
+    print(f"Sin polígono en la cartografía: {len(sin_poligono)} secciones ({(sin_poligono.semaforo_A == 'rojo').sum()} rojas) · "
+          f"polígonos sin predicción: {(~geo.seccion.isin(esc.seccion)).sum()}")
 
 
 if __name__ == "__main__":

@@ -43,12 +43,15 @@ def main():
         rojas = int((e[col] == "rojo").sum())
         ax.set_title(f"{titulo}\n{rojas} secciones en riesgo alto", loc="left", fontsize=11, color=TEXTO)
     leyenda = [Patch(facecolor=COLOR[k], label=ETIQUETA[k]) for k in COLOR] + \
-              [Patch(facecolor=SIN_DATOS, label="Sin datos"), Patch(facecolor="none", edgecolor=TEXTO, label="Top 50 de mayor caída")]
+              [Patch(facecolor=SIN_DATOS, label="Sin predicción para este corte"), Patch(facecolor="none", edgecolor=TEXTO, label="Top 50 de mayor caída")]
     fig.legend(handles=leyenda, loc="lower center", bbox_to_anchor=(0.5, 0.025), ncol=5, frameon=False, fontsize=9.5, labelcolor=TEXTO)
     fig.suptitle(f"Semáforo de riesgo de abstención juvenil 2027, zona urbana de {config.NOMBRE}", x=0.03, ha="left",
                  fontsize=14, fontweight="bold", color=TEXTO)
     fig.text(0.03, 0.005, "Riesgo según participación predicha de jóvenes 18–29: alto < 30 %, medio 30–40 %, bajo ≥ 40 %. "
-             "Fuente: INE, Conteos Censales 2009–2024 y Base Geográfica Digital.", fontsize=7.5, color=TEXTO_2)
+             "Fuente: INE, Conteos Censales 2009–2024 y Base Geográfica Digital.\n"
+             f"Los conteos son del universo 2024; {int((~e.seccion.isin(g.seccion)).sum())} secciones de 2024 "
+             f"({int(((~e.seccion.isin(g.seccion)) & (e.semaforo_A == 'rojo')).sum())} rojas) no existen en la cartografía "
+             "de dic. 2025 y no se dibujan.", fontsize=7.5, color=TEXTO_2)
     fig.subplots_adjust(left=0.02, right=0.98, top=0.86, bottom=0.08, wspace=0.04)
     fig.savefig(OUT / "fig_mapa_escenarios.png", facecolor=SUPERFICIE)
     plt.close(fig)
