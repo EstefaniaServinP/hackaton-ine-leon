@@ -58,7 +58,7 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
         ("Votaron en 2024: hombres jóvenes", f"{r.part_jov_hombres_2024:.0f} %"),
         ("Años de escolaridad promedio (2020)", "—" if pd.isna(r.escolaridad) else f"{r.escolaridad:.1f}"),
         ("Viviendas con internet (2020)", "—" if pd.isna(r.pct_internet) else f"{r.pct_internet:.0f} %"),
-        ("Cumplen 18 entre 2023 y 2026 (aprox.)", "—" if pd.isna(r.primer_voto) else f"{int(r.primer_voto):,}"),
+        ("Tenían 12 a 14 años en 2020 (hoy ~18 a 20)", "—" if pd.isna(r.primer_voto) else f"{int(r.primer_voto):,}"),
         ("Volantes estimados (hogares visitados)", f"{int(r.volantes):,}"),
         ("Calidad del dato", "Poco confiable: menos de 100 jóvenes" if r.pocos_jovenes else str(r.calidad).capitalize()),
     ]
@@ -85,10 +85,12 @@ def ficha(pdf, r, geo, h_tot, h_jov, c_tot, c_jov):
 
     # Ubicación
     ax3 = fig.add_axes([0.05, 0.07, 0.38, 0.28]); ax3.set_axis_off()
-    geo.plot(ax=ax3, color="#e9e8e3", edgecolor=SUP, linewidth=0.2)
+    geo.plot(ax=ax3, color="#8fa3bc", edgecolor="#f4f6f9", linewidth=0.15)
     propia = geo[geo.seccion == r.seccion]
     if len(propia):
-        propia.plot(ax=ax3, color=ROJO, edgecolor=TXT, linewidth=0.8)
+        propia.plot(ax=ax3, color=ROJO, edgecolor=ROJO, linewidth=1.0)
+        c = propia.geometry.union_all().centroid  # círculo para ubicar secciones pequeñas
+        ax3.scatter([c.x], [c.y], s=900, facecolors="none", edgecolors=ROJO, linewidths=3, zorder=5)
     else:
         ax3.text(0.5, 0.5, "Sin representación espacial: la sección no\nexiste en la cartografía de dic. 2025.\nHomologación pendiente.",
                  ha="center", va="center", fontsize=10, color=TXT, transform=ax3.transAxes,
