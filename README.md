@@ -109,7 +109,7 @@ como Irapuato, tendrá más secciones en rojo.
 
 ## Uso de IA
 
-Se utilizaron herramientas de asistencia de IA (Claude) para apoyo en programación y redacción;
+Se utilizaron herramientas de asistencia de IA (Claude, ChatGPT, Gemini y Perplexity) para apoyo en programación, búsqueda de fuentes y redacción;
 el diseño del análisis, la validación de resultados y las recomendaciones son de autoría del equipo.
 
 ## Derechos
